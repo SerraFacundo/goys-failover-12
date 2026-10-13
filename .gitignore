@@ -1,0 +1,9 @@
+# Imagenes de VM (pesadas, GitHub rechaza > 100 MB)
+*.img
+*.qcow2
+*.zip
+# Backups binarios de RouterOS (pueden tener secretos)
+*.backup
+# Claves del grupo (F0 3.1)
+secrets*
+.env

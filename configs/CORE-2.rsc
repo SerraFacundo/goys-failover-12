@@ -20,6 +20,7 @@
 /ip neighbor discovery-settings set discover-interface-list=none
 /tool bandwidth-server set enabled=no
 /ip dns set allow-remote-requests=no
+/ip dhcp-client remove [find]
 
 # ===== F2: OSPF area 0 con MD5 (F0 2.4 y 3.4) =====
 /routing ospf instance add name=ospf1 version=2 router-id=10.255.0.3

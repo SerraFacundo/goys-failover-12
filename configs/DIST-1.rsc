@@ -20,6 +20,7 @@
 /ip neighbor discovery-settings set discover-interface-list=none
 /tool bandwidth-server set enabled=no
 /ip dns set allow-remote-requests=no
+/ip dhcp-client remove [find]
 
 # ===== F2: VRRP v2 con auth AH (F0 2.2 y 3.4) =====
 /interface vrrp add name=vrrp10 interface=ether3 vrid=10 version=2 priority=200 authentication=ah password="<K-VRRP-10>"

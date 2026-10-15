@@ -19,6 +19,7 @@
 /ip neighbor discovery-settings set discover-interface-list=none
 /tool bandwidth-server set enabled=no
 /ip dns set allow-remote-requests=no
+/ip dhcp-client remove [find]
 
 # ===== F3: eBGP hacia EDGE con TCP-MD5 =====
 /ip firewall address-list add list=bgp-out address=198.51.100.1/32

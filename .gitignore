@@ -7,3 +7,6 @@
 # Claves del grupo (F0 3.1)
 secrets*
 .env
+
+# Configs con claves reales para pegar (no subir)
+pegar/

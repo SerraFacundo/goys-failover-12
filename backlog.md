@@ -44,13 +44,13 @@
 - [x] [R5] hosts VPCS + ping entre vecinos de cada /30 (`capturas/edge_prueba.png`, `core_1.png`, `core_2.png`, `pc_prueba.png`, `sever_prueba.png`)
 
 ### Snapshot BASE
-- [ ] [R5] snapshot `BASE` en GNS3 + captura
+- [x] [R5] snapshot `BASE` en GNS3 (`BASE_141026_233041`, 14/10 23:30, dentro del proyecto)
 
 ### Hardening (los 7 routers)
 - [x] [R1] definir claves del grupo y compartir por canal privado
 - [x] [R1..R4] admin + `monitor` (read) + servicios apagados en sus routers
 - [x] [R1..R4] quitar el `dhcp-client` de fábrica en los 7 routers
-- [ ] [R5] verificar `/ip service print` y `/user print` en los 7
+- [x] [R5] verificar `/ip service print` y `/user print` en los 7 (`capturas/F1/verif_<router>.png`)
 
 ### Backup inicial (`/export`)
 - [x] [R1..R4] `/export terse` de cada router a `backups/AAAA-MM-DD_<router>_F1.rsc`

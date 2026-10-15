@@ -55,8 +55,8 @@
 ### Backup inicial (`/export`)
 - [x] [R1..R4] `/export terse` de cada router a `backups/AAAA-MM-DD_<router>_F1.rsc`
 - [x] [R5] revisar que no haya claves y commitear `ops(backup): backups post-F1`
-- [ ] [R5] restore probado: reset de un router + `/import` de su `.rsc` + captura (F0 4.2)
-- [ ] [R5] cargar el change log con las entradas de F0 y F1 (F0 4.1)
+- [x] [R5] restore probado: reset de un router + `/import` de su `.rsc` + captura (F0 4.2) — DIST-2, `capturas/F1/restore_*.png`
+- [x] [R5] cargar el change log con las entradas de F0 y F1 (F0 4.1)
 
 ---
 

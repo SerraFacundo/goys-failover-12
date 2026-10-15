@@ -26,7 +26,7 @@
 
 ### Repositorio git
 - [x] [R1] estructura de carpetas + README
-- [~] [R1] `backlog.md` + `.gitignore`
+- [x] [R1] `backlog.md` + `.gitignore`
 
 ---
 
@@ -34,26 +34,29 @@
 
 ### Despliegue (7 CHR + 2 switches + 2 hosts)
 - [x] [R1] instalar GNS3 + template CHR7 (adaptadores 4, virtio, telnet)
-- [ ] [R5] crear nodos y cablear los 15 enlaces según `docs/guia-F1-F3.md` §2.1
+- [x] [R5] crear nodos y cablear los 15 enlaces según `docs/guia-F1-F3.md` §2.1
 
 ### IPs de enlace + loopbacks
-- [ ] [R1] EDGE: bloque F1 de `configs/EDGE.rsc`
-- [ ] [R2] ISP-1 e ISP-2: bloque F1
-- [ ] [R3] CORE-1 y CORE-2: bloque F1
-- [ ] [R4] DIST-1 y DIST-2: bloque F1
-- [ ] [R5] hosts VPCS + ping entre vecinos de cada /30 (captura)
+- [x] [R1] EDGE: bloque F1 de `configs/EDGE.rsc`
+- [x] [R2] ISP-1 e ISP-2: bloque F1
+- [x] [R3] CORE-1 y CORE-2: bloque F1
+- [x] [R4] DIST-1 y DIST-2: bloque F1
+- [x] [R5] hosts VPCS + ping entre vecinos de cada /30 (`capturas/edge_prueba.png`, `core_1.png`, `core_2.png`, `pc_prueba.png`, `sever_prueba.png`)
 
 ### Snapshot BASE
 - [ ] [R5] snapshot `BASE` en GNS3 + captura
 
 ### Hardening (los 7 routers)
-- [ ] [R1] definir claves del grupo y compartir por canal privado
-- [ ] [R1..R4] admin + `monitor` (read) + servicios apagados en sus routers
+- [x] [R1] definir claves del grupo y compartir por canal privado
+- [x] [R1..R4] admin + `monitor` (read) + servicios apagados en sus routers
+- [x] [R1..R4] quitar el `dhcp-client` de fábrica en los 7 routers
 - [ ] [R5] verificar `/ip service print` y `/user print` en los 7
 
 ### Backup inicial (`/export`)
-- [ ] [R1..R4] `/export terse` de cada router a `backups/AAAA-MM-DD_<router>_F1.rsc`
-- [ ] [R5] revisar que no haya claves y commitear `ops(backup): backups post-F1`
+- [x] [R1..R4] `/export terse` de cada router a `backups/AAAA-MM-DD_<router>_F1.rsc`
+- [x] [R5] revisar que no haya claves y commitear `ops(backup): backups post-F1`
+- [ ] [R5] restore probado: reset de un router + `/import` de su `.rsc` + captura (F0 4.2)
+- [ ] [R5] cargar el change log con las entradas de F0 y F1 (F0 4.1)
 
 ---
 

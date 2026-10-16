@@ -35,15 +35,16 @@
 /routing ospf interface-template add area=backbone interfaces=loopback,ether3,ether4 passive
 
 # ===== F3: firewall input (F0 3.5, ultimo parrafo) =====
+# Con authentication=ah el VRRP viaja como IP 51 (AH), no como 112: el filtro va por ipsec-ah.
 /ip firewall address-list add list=mgmt address=192.168.20.10
 /ip firewall address-list add list=mgmt address=10.255.0.0/24
 /ip firewall filter
 add chain=input connection-state=established,related action=accept
 add chain=input connection-state=invalid action=drop
 add chain=input protocol=ospf action=accept
-add chain=input protocol=vrrp src-address=192.168.10.2 in-interface=ether3 action=accept comment="VRRP solo del otro DIST"
-add chain=input protocol=vrrp src-address=192.168.20.2 in-interface=ether4 action=accept
-add chain=input protocol=vrrp action=drop
+add chain=input protocol=ipsec-ah src-address=192.168.10.2 in-interface=ether3 action=accept comment="VRRP (AH) solo del otro DIST"
+add chain=input protocol=ipsec-ah src-address=192.168.20.2 in-interface=ether4 action=accept
+add chain=input protocol=ipsec-ah action=drop
 add chain=input protocol=tcp dst-port=22 src-address-list=mgmt action=accept
 add chain=input protocol=udp dst-port=161 src-address-list=mgmt action=accept
 add chain=input protocol=icmp limit=10/1s,20:packet action=accept

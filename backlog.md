@@ -66,7 +66,7 @@
 - [x] [R1] warm-up `laboratorio-vrrp.md`: failover R1/R2 probado (`capturas/ping_failover.png`)
 - [x] [R4] VRRP vrid 10 en DIST-1 (master, prio 200) y DIST-2 (backup, prio 100)
 - [x] [R4] VRRP vrid 20 en DIST-2 (master, prio 200) y DIST-1 (backup, prio 100)
-- [~] [R4] auth `ah` (VRRPv2) en ambos grupos + filtro protocolo 112 (auth aplicada; el filtro va con el firewall de F3)
+- [x] [R4] auth `ah` (VRRPv2) en ambos grupos + filtro VRRP (con `ah` el paquete es IP 51, no 112: el filtro va por `ipsec-ah`)
 - [x] [R5] verificar master/backup con `/interface vrrp print` (`capturas/F2/vrrp_DIST-*.png`)
 
 ### OSPF área 0 (con MD5, incluido core–core)
@@ -85,23 +85,23 @@
 ## Epic F3 — BGP + firewall · *vence vie 16/10*
 
 ### eBGP multi-homing (2 sesiones, TCP-MD5)
-- [ ] [R2] sesiones en ISP-1 e ISP-2 (default-originate + /32 de "Internet")
-- [ ] [R1] sesiones en EDGE con filtros `from-isp1` (lp 200) y `from-isp2` (lp 100)
-- [ ] [R5] verificar 2 sesiones established
+- [x] [R2] sesiones en ISP-1 e ISP-2 (default-originate + /32 de "Internet")
+- [x] [R1] sesiones en EDGE con filtros `from-isp1` (lp 200) y `from-isp2` (lp 100)
+- [x] [R5] verificar 2 sesiones established (`capturas/F3/bgp_EDGE.png`)
 
 ### Redistribución OSPF→BGP
-- [ ] [R1] `output.redistribute=ospf` + filtro `to-isp` (solo las 2 LANs)
-- [ ] [R2] verificar LANs aprendidas en ISP-1 e ISP-2
+- [x] [R1] `output.redistribute=ospf` + filtro `to-isp` (solo las 2 LANs)
+- [x] [R2] verificar LANs aprendidas en ISP-1 e ISP-2 (`capturas/F3/bgp_ISP-*.png`)
 
 ### Salida a "Internet" (host → loopback ISP)
-- [ ] [R5] PC-USER → 198.51.100.100 + trace (captura)
+- [x] [R5] PC-USER → 198.51.100.100 + trace (`capturas/F3/internet_*.png`)
 
 ### Firewall edge (filtro + plano de gestión)
-- [ ] [R1] firewall input/forward en EDGE (F0 §3.5)
-- [ ] [R3] firewall input en CORE-1 y CORE-2
-- [ ] [R4] firewall input en DIST-1 y DIST-2
-- [ ] [R5] pruebas negativas (SSH desde ISP, origen bogon) + `print stats`
-- [ ] [R1..R4] backups `_F3`
+- [x] [R1] firewall input/forward en EDGE (F0 §3.5)
+- [x] [R3] firewall input en CORE-1 y CORE-2
+- [x] [R4] firewall input en DIST-1 y DIST-2
+- [x] [R5] pruebas negativas (SSH desde ISP, origen bogon) + `print stats` (`capturas/F3/firewall_*.png`)
+- [x] [R1..R4] backups `_F3`
 
 ---
 

@@ -11,7 +11,7 @@
 # Reemplazar <ADMIN_PASS> y <MONITOR_PASS> antes de pegar. Nunca commitear valores reales.
 /user set admin password="<ADMIN_PASS>"
 /user add name=monitor group=read password="<MONITOR_PASS>"
-/ip service disable telnet,ftp,www,www-ssl,api,api-ssl,winbox
+/ip service disable telnet,ftp,www,www-ssl,api,api-ssl,winbox,reverse-proxy
 /ip service set ssh address=192.168.20.10/32,10.255.0.0/24
 /tool mac-server set allowed-interface-list=none
 /tool mac-server mac-winbox set allowed-interface-list=none
@@ -27,4 +27,5 @@
 /routing filter rule add chain=from-edge rule="if (dst == 192.168.10.0/24) { accept }"
 /routing filter rule add chain=from-edge rule="if (dst == 192.168.20.0/24) { accept }"
 /routing filter rule add chain=from-edge rule="reject"
-/routing bgp connection add name=EDGE as=65002 router-id=10.255.0.12 local.role=ebgp local.address=203.0.113.5 remote.address=203.0.113.6 remote.as=65000 tcp-md5-key="<K-BGP-ISP2>" input.filter=from-edge output.network=bgp-out output.default-originate=always
+/routing bgp instance add name=bgp1 as=65002 router-id=10.255.0.12
+/routing bgp connection add name=EDGE as=65002 instance=bgp1 local.role=ebgp local.address=203.0.113.5 remote.address=203.0.113.6 remote.as=65000 tcp-md5-key="<K-BGP-ISP2>" input.filter=from-edge output.network=bgp-out output.default-originate=always

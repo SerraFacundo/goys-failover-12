@@ -64,21 +64,21 @@
 
 ### VRRP (2 grupos, load-sharing, auth)
 - [x] [R1] warm-up `laboratorio-vrrp.md`: failover R1/R2 probado (`capturas/ping_failover.png`)
-- [ ] [R4] VRRP vrid 10 en DIST-1 (master, prio 200) y DIST-2 (backup, prio 100)
-- [ ] [R4] VRRP vrid 20 en DIST-2 (master, prio 200) y DIST-1 (backup, prio 100)
-- [ ] [R4] auth `ah` (VRRPv2) en ambos grupos + filtro protocolo 112
-- [ ] [R5] verificar master/backup con `/interface vrrp print`
+- [x] [R4] VRRP vrid 10 en DIST-1 (master, prio 200) y DIST-2 (backup, prio 100)
+- [x] [R4] VRRP vrid 20 en DIST-2 (master, prio 200) y DIST-1 (backup, prio 100)
+- [~] [R4] auth `ah` (VRRPv2) en ambos grupos + filtro protocolo 112 (auth aplicada; el filtro va con el firewall de F3)
+- [x] [R5] verificar master/backup con `/interface vrrp print` (`capturas/F2/vrrp_DIST-*.png`)
 
 ### OSPF área 0 (con MD5, incluido core–core)
-- [ ] [R3] OSPF en CORE-1 y CORE-2 (4 vecinos cada uno)
-- [ ] [R1] OSPF en EDGE + `originate-default=if-installed`
-- [ ] [R4] OSPF en DIST-1 y DIST-2 (LANs pasivas)
-- [ ] [R5] verificar 7 adyacencias FULL con `/routing ospf neighbor print`
+- [x] [R3] OSPF en CORE-1 y CORE-2 (4 vecinos cada uno)
+- [x] [R1] OSPF en EDGE + `originate-default=if-installed`
+- [x] [R4] OSPF en DIST-1 y DIST-2 (LANs pasivas)
+- [x] [R5] verificar 7 adyacencias FULL con `/routing ospf neighbor print` (`capturas/F2/ospf_*.png`)
 
 ### Verificación L3 (ping intra-LAN + gateway virtual)
-- [ ] [R5] PC-USER → 192.168.10.1 y SRV → 192.168.20.1
-- [ ] [R5] PC-USER → SRV (cruza el core)
-- [ ] [R1..R4] backups `_F2`
+- [x] [R5] PC-USER → 192.168.10.1 y SRV → 192.168.20.1 (`capturas/F2/ping_*.png`)
+- [x] [R5] PC-USER → SRV (lo rutea directo el DIST master, que tiene las dos LANs; ver `trace` en `capturas/F2/ping_PC-USER.png`)
+- [x] [R1..R4] backups `_F2`
 
 ---
 

@@ -87,7 +87,7 @@
 ### eBGP multi-homing (2 sesiones, TCP-MD5)
 - [x] [R2] sesiones en ISP-1 e ISP-2 (default-originate + /32 de "Internet")
 - [x] [R1] sesiones en EDGE con filtros `from-isp1` (lp 200) y `from-isp2` (lp 100)
-- [x] [R5] verificar 2 sesiones established (`capturas/F3/bgp_EDGE.png`)
+- [x] [R5] verificar 2 sesiones established con TCP-MD5 (`capturas/F3/bgp_EDGE.png`, `capturas/F3/bgp_tcp-md5.png`)
 
 ### Redistribución OSPF→BGP
 - [x] [R1] `output.redistribute=ospf` + filtro `to-isp` (solo las 2 LANs)

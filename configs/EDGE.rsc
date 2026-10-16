@@ -39,9 +39,10 @@ add chain=from-isp2 rule="reject"
 add chain=to-isp rule="if (dst == 192.168.10.0/24) { accept }"
 add chain=to-isp rule="if (dst == 192.168.20.0/24) { accept }"
 add chain=to-isp rule="reject"
+/routing bgp instance add name=bgp1 as=65000 router-id=10.255.0.1
 /routing bgp connection
-add name=ISP-1 as=65000 router-id=10.255.0.1 local.role=ebgp local.address=203.0.113.2 remote.address=203.0.113.1 remote.as=65001 tcp-md5-key="<K-BGP-ISP1>" input.filter=from-isp1 output.redistribute=ospf output.filter-chain=to-isp
-add name=ISP-2 as=65000 router-id=10.255.0.1 local.role=ebgp local.address=203.0.113.6 remote.address=203.0.113.5 remote.as=65002 tcp-md5-key="<K-BGP-ISP2>" input.filter=from-isp2 output.redistribute=ospf output.filter-chain=to-isp
+add name=ISP-1 as=65000 instance=bgp1 local.role=ebgp local.address=203.0.113.2 remote.address=203.0.113.1 remote.as=65001 tcp-md5-key="<K-BGP-ISP1>" input.filter=from-isp1 output.redistribute=ospf output.filter-chain=to-isp
+add name=ISP-2 as=65000 instance=bgp1 local.role=ebgp local.address=203.0.113.6 remote.address=203.0.113.5 remote.as=65002 tcp-md5-key="<K-BGP-ISP2>" input.filter=from-isp2 output.redistribute=ospf output.filter-chain=to-isp
 
 # ===== F3: firewall EDGE (F0 3.5) =====
 /interface list add name=WAN

@@ -27,4 +27,5 @@
 /routing filter rule add chain=from-edge rule="if (dst == 192.168.10.0/24) { accept }"
 /routing filter rule add chain=from-edge rule="if (dst == 192.168.20.0/24) { accept }"
 /routing filter rule add chain=from-edge rule="reject"
-/routing bgp connection add name=EDGE as=65001 router-id=10.255.0.11 local.role=ebgp local.address=203.0.113.1 remote.address=203.0.113.2 remote.as=65000 tcp-md5-key="<K-BGP-ISP1>" input.filter=from-edge output.network=bgp-out output.default-originate=always
+/routing bgp instance add name=bgp1 as=65001 router-id=10.255.0.11
+/routing bgp connection add name=EDGE as=65001 instance=bgp1 local.role=ebgp local.address=203.0.113.1 remote.address=203.0.113.2 remote.as=65000 tcp-md5-key="<K-BGP-ISP1>" input.filter=from-edge output.network=bgp-out output.default-originate=always

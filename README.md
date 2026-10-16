@@ -37,9 +37,9 @@ El diseño (IPAM, corrección del diagrama, seguridad y operación) está en [`d
 | Fase | Contenido | Vence | Estado |
 |------|-----------|:-----:|--------|
 | F0 | Diseño + políticas + repo | 2/10 | Aprobado |
-| F1 | Topología + hardening + backup | 9/10 | Entregado 14/10, pendiente restore probado |
-| F2 | VRRP + OSPF | 16/10 | En curso |
-| F3 | BGP + firewall | 16/10 | En curso |
+| F1 | Topología + hardening + backup | 9/10 | Entregado 14/10, restore probado 15/10 |
+| F2 | VRRP + OSPF | 16/10 | Hecho 15/10 |
+| F3 | BGP + firewall | 16/10 | Hecho 15/10 |
 | F4 | Drills + monitoreo | 20/10 | Pendiente |
 | F5 | Memoria + defensa | 23/10 | Pendiente |
 

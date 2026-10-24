@@ -24,9 +24,9 @@ Verificar 2 vecinos Full de nuevo.
 
 | Dato | Valor |
 |------|-------|
-| Vecinos con clave incorrecta | ____ |
-| Tiempo hasta caer la adyacencia | ____ s |
-| Vecinos tras restaurar | ____ |
+| Vecinos con clave incorrecta | 0 en DIST-2; CORE-1 queda con 3 y sin 10.255.0.5. Log de DIST-2: authentication failed ... md5 mismatch |
+| Tiempo hasta caer la adyacencia | 40 s |
+| Vecinos tras restaurar | 2 Full, a los 12 s de restaurar la clave |
 
 Capturas: `capturas/F4/seg_ospf_falla.png`, `seg_ospf_ok.png`.
 
@@ -47,8 +47,8 @@ ISP-2> /routing bgp connection set EDGE tcp-md5-key="<K-BGP-ISP2>"
 
 | Dato | Valor |
 |------|-------|
-| Estado de la sesión con clave incorrecta | ____ |
-| Estado tras restaurar | ____ |
+| Estado de la sesión con clave incorrecta | No established: Connection closed → Idle al 1 s y siguió así 60 s. PC-USER sin pérdidas (sale por ISP-1) |
+| Estado tras restaurar | Established, al 1 s de restaurar la clave |
 
 Capturas: `seg_bgp_falla.png`, `seg_bgp_ok.png`.
 

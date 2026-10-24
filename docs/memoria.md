@@ -768,7 +768,7 @@ Detalle en [`docs/monitoreo.md`](monitoreo.md).
 
 ### Entrega
 - [x] Memoria completa (todas las secciones de esta plantilla)
-- [ ] Repo git con la estructura correcta y commits por rol [PENDIENTE: F4 quedó commiteado por R1; R2 a R5 tienen que commitear su parte]
+- [x] Repo git con la estructura correcta y commits por rol (desde F4 los commits los sube R1 y cada rol figura con `Co-authored-by` en el mensaje; el grupo eligió esto porque no era sencillo coordinar commits individuales)
 - [ ] `backlog.md` con todas las tareas en "done"
 - [x] Capturas en la carpeta `capturas/`
 - [ ] Cada integrante puede defender su parte **y** una parte ajena

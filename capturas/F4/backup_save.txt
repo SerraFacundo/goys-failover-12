@@ -1,0 +1,65 @@
+# /system backup save cifrado (aes-sha256) - 2026-10-23 22:59
+# password = ADMIN_PASS de secrets.txt (no se muestra)
+
+[admin@ISP-1] > /system backup save name=ISP-1_F4 encryption=aes-sha256 password=***
+Saving system configuration
+Configuration backup saved
+
+[admin@ISP-1] > /file print where name~"F4.backup"
+Columns: NAME, TYPE, SIZE, LAST-MODIFIED
+# NAME             TYPE    SIZE     LAST-MODIFIED      
+0 ISP-1_F4.backup  backup  22.7KiB  2026-10-24 01:59:52
+
+[admin@ISP-2] > /system backup save name=ISP-2_F4 encryption=aes-sha256 password=***
+Saving system configuration
+Configuration backup saved
+
+[admin@ISP-2] > /file print where name~"F4.backup"
+Columns: NAME, TYPE, SIZE, LAST-MODIFIED
+# NAME             TYPE    SIZE     LAST-MODIFIED      
+0 ISP-2_F4.backup  backup  22.7KiB  2026-10-24 01:59:54
+
+[admin@EDGE] > /system backup save name=EDGE_F4 encryption=aes-sha256 password=***
+Saving system configuration
+Configuration backup saved
+
+[admin@EDGE] > /file print where name~"F4.backup"
+Columns: NAME, TYPE, SIZE, LAST-MODIFIED
+# NAME            TYPE    SIZE     LAST-MODIFIED      
+0 EDGE_F4.backup  backup  26.8KiB  2026-10-24 01:59:55
+
+[admin@CORE-1] > /system backup save name=CORE-1_F4 encryption=aes-sha256 password=***
+Saving system configuration
+Configuration backup saved
+
+[admin@CORE-1] > /file print where name~"F4.backup"
+Columns: NAME, TYPE, SIZE, LAST-MODIFIED
+# NAME              TYPE    SIZE     LAST-MODIFIED      
+0 CORE-1_F4.backup  backup  23.1KiB  2026-10-24 01:59:57
+
+[admin@CORE-2] > /system backup save name=CORE-2_F4 encryption=aes-sha256 password=***
+Saving system configuration
+Configuration backup saved
+
+[admin@CORE-2] > /file print where name~"F4.backup"
+Columns: NAME, TYPE, SIZE, LAST-MODIFIED
+# NAME              TYPE    SIZE     LAST-MODIFIED      
+0 CORE-2_F4.backup  backup  23.1KiB  2026-10-24 01:59:58
+
+[admin@DIST-1] > /system backup save name=DIST-1_F4 encryption=aes-sha256 password=***
+Saving system configuration
+Configuration backup saved
+
+[admin@DIST-1] > /file print where name~"F4.backup"
+Columns: NAME, TYPE, SIZE, LAST-MODIFIED
+# NAME              TYPE    SIZE     LAST-MODIFIED      
+0 DIST-1_F4.backup  backup  24.1KiB  2026-10-24 01:59:59
+
+[admin@DIST-2] > /system backup save name=DIST-2_F4 encryption=aes-sha256 password=***
+Saving system configuration
+Configuration backup saved
+
+[admin@DIST-2] > /file print where name~"F4.backup"
+Columns: NAME, TYPE, SIZE, LAST-MODIFIED
+# NAME              TYPE    SIZE     LAST-MODIFIED      
+0 DIST-2_F4.backup  backup  24.1KiB  2026-10-24 02:00:01

@@ -40,20 +40,20 @@ El diseño (IPAM, corrección del diagrama, seguridad y operación) está en [`d
 | F1 | Topología + hardening + backup | 9/10 | Entregado 14/10, restore probado 15/10 |
 | F2 | VRRP + OSPF | 16/10 | Hecho 15/10 |
 | F3 | BGP + firewall | 16/10 | Hecho 15/10 |
-| F4 | Drills + monitoreo | 20/10 | Pendiente |
-| F5 | Memoria + defensa | 23/10 | Pendiente |
+| F4 | Drills + monitoreo | 20/10 | Hecho 23/10 (atrasado) |
+| F5 | Memoria + defensa | 23/10 | Memoria entregada 24/10 (atrasado); defensa en clase |
 
-El detalle por tarea está en [`backlog.md`](backlog.md).
+El detalle por tarea está en [`backlog.md`](backlog.md) y la memoria completa en [`docs/memoria.md`](docs/memoria.md).
 
 ## Estructura
 
 | Carpeta | Contenido |
 |---------|-----------|
-| `docs/` | F0, guía F1-F3, memoria y diagramas |
-| `configs/` | `.rsc` por router, separados en bloques F1 / F2 / F3, con claves como `<KEY>` |
+| `docs/` | F0, [memoria](docs/memoria.md), monitoreo, prueba de clave incorrecta y plantilla F4 |
+| `configs/` | `.rsc` por router, separados en bloques F1 a F4, con claves como `<KEY>` |
 | `backups/` | `/export` de cada router, `AAAA-MM-DD_<ROUTER>_<FASE>.rsc` |
-| `runbooks/` | Un `.md` por drill |
-| `capturas/` | Evidencia de pruebas |
+| `runbooks/` | Un `.md` por drill, con tiempos medidos y post-mortem |
+| `capturas/` | Evidencia por fase (`F1/` a `F4/`) |
 
 `backup.py` saca el `/export terse` de los 7 routers por la consola de GNS3:
 

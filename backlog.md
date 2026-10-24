@@ -105,26 +105,43 @@
 
 ---
 
-## Epic F4 — Drills + monitoreo · *vence mar 20/10*
+## Epic F4 — Drills + monitoreo · *vence mar 20/10* · completado 23/10 (atrasado)
 
 ### Los 5 drills (runbook + post-mortem + tiempo)
-- [ ] [R5] drill 1 VRRP · drill 2 OSPF · drill 3 BGP · drill 4 check-gateway · drill 5 load-sharing
+- [x] [R1] runbooks de los 5 drills (`runbooks/drill-*.md`)
+- [x] [R5] drill 1 VRRP: corte 2 s (`capturas/F4/drill1_*`)
+- [x] [R5] drill 2 OSPF: corte 1 s (`capturas/F4/drill2_*`)
+- [x] [R5] drill 3 BGP: corrida 1 corte 1 s; corrida 2 corte 144,5 s por hold-time (`capturas/F4/drill3_*`)
+- [x] [R5] drill 4 check-gateway: corrida 1 corte 1 s; corrida 2 corte 23 s (`capturas/F4/drill4_*`)
+- [x] [R5] drill 5 load-sharing: SRV 2 pings, PC-USER 0 (`capturas/F4/drill5_*`)
+- [x] [R3/R2] drills 2-4 con falla del lado lejano (corrida 2): OSPF 0 s, BGP 144,5 s, check-gateway 23 s (`capturas/F4/drillN_v2_*`)
+- [x] [R5] evidencia de drills en texto (capturas/F4/*.txt)
 
 ### Monitoreo (SNMP/chequeos)
-- [ ] <!-- [R#] tarea -->
+- [x] [R1..R4] SNMP v3 authPriv en los 7 routers, `public` deshabilitada
+- [x] [R1..R4] `trap-community=goys12` en los 7 routers
+- [x] [R2] netwatch en EDGE (ISP-1, ISP-2, CORE-1, CORE-2) — rotación F4
+- [x] [R4] netwatch en DIST-1 y DIST-2 (vigilan al par VRRP)
+- [x] [R2] floating static con check-gateway en EDGE (distancia 30/31) — rotación F4
+- [x] [R1] rutas de vuelta a las LANs en ISP-1 e ISP-2 — rotación F4
+- [x] [R5] documentar monitoreo (`docs/monitoreo.md`)
 
 ### Verificación de seguridad (clave incorrecta falla)
-- [ ] <!-- [R#] tarea -->
+- [x] [R3] OSPF con clave incorrecta en DIST-2: adyacencia cae a los 40 s, `md5 mismatch` (`capturas/F4/seg_ospf_*`)
+- [x] [R1] BGP con clave incorrecta en ISP-2: sesión no establece (`capturas/F4/seg_bgp_*`)
+- [x] [R1..R4] backups `_F4`
 
 ---
 
-## Epic F5 — Memoria + defensa · *vence vie 23/10*
+## Epic F5 — Memoria + defensa · *vence vie 23/10* · en curso 24/10 (atrasado)
 
 ### Memoria (plantilla completa)
-- [ ] <!-- [R#] tarea -->
+- [x] [R1] borrador de `docs/memoria.md` con todas las secciones de la plantilla
+- [x] [R1..R5] resolver los `[PENDIENTE]` de la memoria
+- [x] [R5] change log con las entradas de F4 y F5
 
 ### Backlog cerrado (todo en "hecho")
 - [ ] [R5] revisar estado final
 
 ### Defensa oral (parte propia + ajena)
-- [ ] [R1..R5] ensayo cruzado
+- [ ] [R1..R5] ensayo cruzado: cada uno explica su parte y la del rol asignado (R1↔R2, R3↔R4, R5↔R1)

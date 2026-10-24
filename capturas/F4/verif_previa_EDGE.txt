@@ -1,0 +1,78 @@
+# Verificacion F2/F3 (paso 2) - EDGE - 2026-10-23 20:59
+
+[admin@EDGE] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether4 address=10.0.0.6 
+      router-id=10.255.0.3 state="Full" state-changes=4 adjacency=3m42s 
+      timeout=38s 
+ 1  D instance=ospf1 area=backbone interface=ether3 address=10.0.0.2 
+      router-id=10.255.0.2 state="Full" state-changes=5 adjacency=3m46s 
+      timeout=34s 
+
+[admin@EDGE] > /routing bgp session print
+Flags: E - ESTABLISHED 
+ 0 E name="ISP-1-1" instance=bgp1 
+     remote.address=203.0.113.1 .as=65001 .id=10.255.0.11 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=6 .bytes=175 .eor="" 
+     local.address=203.0.113.2 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=5 .bytes=128 .eor="" 
+     output.procid=20 .filter-chain=to-isp 
+     input.procid=20 .filter=from-isp1 ebgp 
+     hold-time=3m keepalive-time=1m uptime=3m16s360ms 
+     last-started=2026-10-23 23:55:44 prefix-count=3 
+ 1 E name="ISP-2-1" instance=bgp1 
+     remote.address=203.0.113.5 .as=65002 .id=10.255.0.12 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=6 .bytes=175 .eor="" 
+     local.address=203.0.113.6 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=5 .bytes=128 .eor="" 
+     output.procid=21 .filter-chain=to-isp 
+     input.procid=21 .filter=from-isp2 ebgp 
+     hold-time=3m keepalive-time=1m uptime=3m9s880ms 
+     last-started=2026-10-23 23:55:50 prefix-count=3 
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: D - DYNAMIC; A - ACTIVE; b - BGP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+    DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+DAb 0.0.0.0/0    203.0.113.1  main                 20
+D b 0.0.0.0/0    203.0.113.5  main                 20
+
+# Verificacion F4 (paso 4) - EDGE - 2026-10-23 21:00
+
+[admin@EDGE] > /snmp print
+           enabled: yes              
+           contact: Grupo 12 GOYS    
+          location: GNS3 lab failover
+  engine-id-suffix:                  
+         engine-id: 80003a8c04       
+       src-address: ::               
+       trap-target:                  
+    trap-community: public           
+      trap-version: 3                
+   trap-generators: temp-exception   
+               vrf: main             
+
+[admin@EDGE] > /tool netwatch print
+Columns: TYPE, HOST, INTERVAL, STATUS, SINCE
+# TYPE  HOST         INTERVAL  STATUS  SINCE              
+;;; ISP-1
+0 icmp  203.0.113.1  5s        up      2026-10-23 23:59:54
+;;; ISP-2
+1 icmp  203.0.113.5  5s        up      2026-10-23 23:59:55
+;;; CORE-1
+2 icmp  10.0.0.2     5s        up      2026-10-23 23:59:56
+;;; CORE-2
+3 icmp  10.0.0.6     5s        up      2026-10-23 23:59:56
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: D - DYNAMIC; A - ACTIVE; s - STATIC, b - BGP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#     DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+  DAb 0.0.0.0/0    203.0.113.1  main                 20
+  D b 0.0.0.0/0    203.0.113.5  main                 20
+;;; chk-ISP1
+0   s 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1   s 0.0.0.0/0    203.0.113.5  main                 31

@@ -1,0 +1,11 @@
+# Verificacion F2/F3 (paso 2) - PC-USER - 2026-10-23 20:59
+
+PC-USER> ping 198.51.100.100
+
+84 bytes from 198.51.100.100 icmp_seq=1 ttl=61 time=1.928 ms
+84 bytes from 198.51.100.100 icmp_seq=2 ttl=61 time=2.222 ms
+84 bytes from 198.51.100.100 icmp_seq=3 ttl=61 time=2.234 ms
+84 bytes from 198.51.100.100 icmp_seq=4 ttl=61 time=2.179 ms
+84 bytes from 198.51.100.100 icmp_seq=5 ttl=61 time=2.204 ms
+
+PC-USER>

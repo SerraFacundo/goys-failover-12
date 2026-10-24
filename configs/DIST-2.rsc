@@ -49,3 +49,11 @@ add chain=input protocol=tcp dst-port=22 src-address-list=mgmt action=accept
 add chain=input protocol=udp dst-port=161 src-address-list=mgmt action=accept
 add chain=input protocol=icmp limit=10/1s,20:packet action=accept
 add chain=input action=drop comment="drop resto"
+
+# ===== F4: SNMP v3 authPriv (F0 3.3) - LOS 7 ROUTERS (dueno: cada rol) =====
+/snmp community set [find name=public] disabled=yes
+/snmp community add name=goys12 security=private authentication-protocol=SHA1 encryption-protocol=AES authentication-password="<K-SNMP-AUTH>" encryption-password="<K-SNMP-PRIV>" addresses=192.168.20.10/32,10.255.0.0/24 read-access=yes write-access=no
+/snmp set enabled=yes contact="Grupo 12 GOYS" location="GNS3 lab failover" trap-version=3
+
+# ===== F4: netwatch - DIST-1 y DIST-2 (dueno R4) =====
+/tool netwatch add host=192.168.10.2 type=icmp interval=5s comment=PAR-DIST up-script=":log info \"NETWATCH PAR-DIST up\"" down-script=":log warning \"NETWATCH PAR-DIST down\""

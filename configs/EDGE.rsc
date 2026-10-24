@@ -75,3 +75,20 @@ add chain=forward in-interface-list=WAN src-address-list=bogons action=drop comm
 add chain=forward src-address-list=lans out-interface-list=WAN connection-state=new action=accept comment="fw #4"
 add chain=forward in-interface-list=WAN protocol=icmp action=accept comment="fw #5"
 add chain=forward in-interface-list=WAN action=drop comment="fw #6"
+
+# ===== F4: SNMP v3 authPriv (F0 3.3) - LOS 7 ROUTERS (dueno: cada rol) =====
+/snmp community set [find name=public] disabled=yes
+/snmp community add name=goys12 security=private authentication-protocol=SHA1 encryption-protocol=AES authentication-password="<K-SNMP-AUTH>" encryption-password="<K-SNMP-PRIV>" addresses=192.168.20.10/32,10.255.0.0/24 read-access=yes write-access=no
+/snmp set enabled=yes contact="Grupo 12 GOYS" location="GNS3 lab failover" trap-version=3
+
+# ===== F4: netwatch (chequeos activos) - EDGE (dueno R2 por rotacion) =====
+/tool netwatch
+add host=203.0.113.1 type=icmp interval=5s comment=ISP-1 up-script=":log info \"NETWATCH ISP-1 up\"" down-script=":log warning \"NETWATCH ISP-1 down\""
+add host=203.0.113.5 type=icmp interval=5s comment=ISP-2 up-script=":log info \"NETWATCH ISP-2 up\"" down-script=":log warning \"NETWATCH ISP-2 down\""
+add host=10.0.0.2 type=icmp interval=5s comment=CORE-1 up-script=":log info \"NETWATCH CORE-1 up\"" down-script=":log warning \"NETWATCH CORE-1 down\""
+add host=10.0.0.6 type=icmp interval=5s comment=CORE-2 up-script=":log info \"NETWATCH CORE-2 up\"" down-script=":log warning \"NETWATCH CORE-2 down\""
+
+# ===== F4: floating static con check-gateway - EDGE (dueno R2 por rotacion) =====
+# Distancia 30/31: quedan detras de BGP (20). Solo se usan si BGP no aporta default.
+/ip route add dst-address=0.0.0.0/0 gateway=203.0.113.1 distance=30 check-gateway=ping comment="chk-ISP1"
+/ip route add dst-address=0.0.0.0/0 gateway=203.0.113.5 distance=31 check-gateway=ping comment="chk-ISP2"

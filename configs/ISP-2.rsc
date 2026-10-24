@@ -29,3 +29,13 @@
 /routing filter rule add chain=from-edge rule="reject"
 /routing bgp instance add name=bgp1 as=65002 router-id=10.255.0.12
 /routing bgp connection add name=EDGE as=65002 instance=bgp1 local.role=ebgp local.address=203.0.113.5 remote.address=203.0.113.6 remote.as=65000 tcp-md5-key="<K-BGP-ISP2>" input.filter=from-edge output.network=bgp-out output.default-originate=always
+
+# ===== F4: SNMP v3 authPriv (F0 3.3) - LOS 7 ROUTERS (dueno: cada rol) =====
+/snmp community set [find name=public] disabled=yes
+/snmp community add name=goys12 security=private authentication-protocol=SHA1 encryption-protocol=AES authentication-password="<K-SNMP-AUTH>" encryption-password="<K-SNMP-PRIV>" addresses=192.168.20.10/32,10.255.0.0/24 read-access=yes write-access=no
+/snmp set enabled=yes contact="Grupo 12 GOYS" location="GNS3 lab failover" trap-version=3
+
+# ===== F4: ruta de vuelta hacia las LANs - ISP-1 e ISP-2 (dueno R1 por rotacion) =====
+# Sin BGP el ISP no conoce las LANs. Distancia 30, detras de la ruta BGP (20).
+/ip route add dst-address=192.168.10.0/24 gateway=203.0.113.6 distance=30 comment="vuelta LAN USERS"
+/ip route add dst-address=192.168.20.0/24 gateway=203.0.113.6 distance=30 comment="vuelta LAN SERVERS"

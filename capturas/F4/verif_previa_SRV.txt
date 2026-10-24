@@ -1,0 +1,11 @@
+# Verificacion F2/F3 (paso 2) - SRV - 2026-10-23 20:59
+
+SRV> ping 198.51.100.100
+
+84 bytes from 198.51.100.100 icmp_seq=1 ttl=61 time=2.080 ms
+84 bytes from 198.51.100.100 icmp_seq=2 ttl=61 time=3.577 ms
+84 bytes from 198.51.100.100 icmp_seq=3 ttl=61 time=2.226 ms
+84 bytes from 198.51.100.100 icmp_seq=4 ttl=61 time=2.160 ms
+84 bytes from 198.51.100.100 icmp_seq=5 ttl=61 time=2.193 ms
+
+SRV>

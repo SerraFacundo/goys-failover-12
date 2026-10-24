@@ -1,0 +1,19 @@
+# Verificacion F2/F3 (paso 2) - DIST-2 - 2026-10-23 20:59
+
+[admin@DIST-2] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether2 address=10.0.0.25 
+      router-id=10.255.0.3 state="Full" state-changes=5 adjacency=3m26s 
+      timeout=34s 
+ 1  D instance=ospf1 area=backbone interface=ether1 address=10.0.0.17 
+      router-id=10.255.0.2 state="Full" state-changes=5 adjacency=3m16s 
+      timeout=39s 
+
+[admin@DIST-2] > /interface vrrp print
+Flags: R - RUNNING; M - MASTER, B - BACKUP
+Columns: NAME, INTERFACE, MAC-ADDRESS, VRID, PRIORITY, INTERVAL, VERSION, 
+         V3-PROTOCOL, SYNC-CONNECTION-TRACKING
+#    NAME    INTERFACE  MAC-ADDRESS        VRID  PRIORITY  IN  V  V3-P  SY
+0  B vrrp10  ether3     00:00:5E:00:01:0A    10       100  1s  2  ipv4  no
+1 RM vrrp20  ether4     00:00:5E:00:01:14    20       200  1s  2  ipv4  no
+

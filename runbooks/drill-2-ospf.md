@@ -54,3 +54,23 @@ Valor de referencia: con los timers por defecto (hello 10 s, dead 40 s) el corte
 - ¿Por qué tardó lo que tardó? En GNS3 3.0.6 el Suspend baja el carrier en los dos extremos (EDGE ether3 y CORE-1 ether1: link down 00:40:46, hora router), así que OSPF bajó el vecino en el mismo segundo y no esperó el dead interval de 40 s. No se reprodujo el caso de enlace sin tráfico con link arriba. Al volver, el primer Resume no levantó el link; con Suspend + Resume de nuevo volvió (link up 00:50:00) y la adyacencia llegó a Full en 10 s.
 - ¿Se perdió todo el tráfico o solo una parte? Los DIST reparten entre CORE-1 y CORE-2; solo el tráfico que pasaba por CORE-1 → EDGE queda cortado hasta el dead interval. Observado: PC-USER perdió 1 ping y todas las rutas OSPF de EDGE pasaron a 10.0.0.6 en el mismo segundo del link down.
 - Mejora posible: bajar hello/dead (por ejemplo 1 s / 4 s) en los enlaces ptp, o usar BFD. Costo: más tráfico de control y más sensibilidad a pérdidas puntuales.
+
+## Corrida 2 (falla del lado lejano)
+
+Fecha / hora: 2026-10-23 22:34 (hora local; los routers marcan 2026-10-24 01:34).
+Falla inyectada: `CORE-1> /interface disable ether1`. EDGE `ether3` siguió `running` durante toda la falla, así que EDGE no vio caer el link y tuvo que detectar la pérdida por OSPF.
+Evidencia: `capturas/F4/drill2_v2_antes.txt` (incluye la verificación previa del link), `drill2_v2_falla.txt`, `drill2_v2_recuperado.txt`.
+
+| Medición | Valor |
+|----------|-------|
+| Rutas de EDGE dejan de usar 10.0.0.2 (CORE-1) | +3 s (sondeo) |
+| `NETWATCH CORE-1 down` | +6 s (log) |
+| EDGE baja al vecino CORE-1 (`timeout`, Full → Down) | +35 s (log) |
+| Pings perdidos en PC-USER | 0 |
+| Tiempo de corte | 0 s |
+| Tiempo hasta Full al volver (`/interface enable ether1` en CORE-1) | 5 s |
+
+Post-mortem:
+- El vecino cayó a los 35 s, dentro del dead interval de 40 s: el último hello de CORE-1 había llegado unos 5 s antes del disable.
+- No hubo corte para el host: CORE-1 bajó su lado al instante, inundó LSAs nuevos por CORE-2 y a los 3 s EDGE ya no tenía rutas por 10.0.0.2, aunque el vecino seguía Full hasta los 35 s.
+- El dead interval solo afecta al tráfico que EDGE mandaría a CORE-1 mientras lo cree vivo; acá el SPF con los LSAs nuevos sacó ese camino antes.

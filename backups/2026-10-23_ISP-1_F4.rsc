@@ -1,4 +1,4 @@
-# 2026-10-24 01:25:35 by RouterOS 7.23.8
+# 2026-10-24 01:45:52 by RouterOS 7.23.8
 # system id = CWiz9mkZYhJ
 #
 /interface bridge add comment="loopback / router-id" name=loopback
@@ -30,7 +30,7 @@
 /routing filter rule add chain=from-edge rule="if (dst == 192.168.10.0/24) { accept }"
 /routing filter rule add chain=from-edge rule="if (dst == 192.168.20.0/24) { accept }"
 /routing filter rule add chain=from-edge rule=reject
-/snmp set contact="Grupo 12 GOYS" enabled=yes location="GNS3 lab failover" trap-version=3
+/snmp set contact="Grupo 12 GOYS" enabled=yes location="GNS3 lab failover" trap-community=goys12 trap-version=3
 /system identity set name=ISP-1
 /tool bandwidth-server set enabled=no
 /tool mac-server set allowed-interface-list=none

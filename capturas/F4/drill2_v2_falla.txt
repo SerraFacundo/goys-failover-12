@@ -1,0 +1,151 @@
+# Drill 2 corrida 2 (falla del lado lejano) - falla - 2026-10-23 22:35:47
+
+PC-USER> ping 198.51.100.100 -t
+22:34:26.186  84 bytes from 198.51.100.100 icmp_seq=4 ttl=61 time=2.069 ms
+22:34:27.194  84 bytes from 198.51.100.100 icmp_seq=5 ttl=61 time=2.213 ms
+22:34:28.190  84 bytes from 198.51.100.100 icmp_seq=6 ttl=61 time=2.049 ms
+22:34:29.193  84 bytes from 198.51.100.100 icmp_seq=7 ttl=61 time=2.084 ms
+22:34:30.199  84 bytes from 198.51.100.100 icmp_seq=8 ttl=61 time=2.123 ms
+22:34:31.207  84 bytes from 198.51.100.100 icmp_seq=9 ttl=61 time=2.146 ms
+22:34:32.200  84 bytes from 198.51.100.100 icmp_seq=10 ttl=61 time=2.063 ms
+22:34:33.203  84 bytes from 198.51.100.100 icmp_seq=11 ttl=61 time=2.134 ms
+22:34:34.210  84 bytes from 198.51.100.100 icmp_seq=12 ttl=61 time=2.257 ms
+22:34:35.218  84 bytes from 198.51.100.100 icmp_seq=13 ttl=61 time=2.248 ms
+22:34:36.211  84 bytes from 198.51.100.100 icmp_seq=14 ttl=61 time=1.950 ms
+22:34:37.215  84 bytes from 198.51.100.100 icmp_seq=15 ttl=61 time=2.159 ms
+22:34:38.222  84 bytes from 198.51.100.100 icmp_seq=16 ttl=61 time=2.033 ms
+22:34:39.219  84 bytes from 198.51.100.100 icmp_seq=17 ttl=61 time=2.084 ms
+22:34:40.221  84 bytes from 198.51.100.100 icmp_seq=18 ttl=61 time=2.055 ms
+22:34:41.225  84 bytes from 198.51.100.100 icmp_seq=19 ttl=61 time=2.112 ms
+22:34:42.233  84 bytes from 198.51.100.100 icmp_seq=20 ttl=61 time=2.156 ms
+22:34:43.230  84 bytes from 198.51.100.100 icmp_seq=21 ttl=61 time=1.991 ms
+22:34:44.232  84 bytes from 198.51.100.100 icmp_seq=22 ttl=61 time=2.069 ms
+22:34:45.236  84 bytes from 198.51.100.100 icmp_seq=23 ttl=61 time=2.468 ms
+22:34:46.244  84 bytes from 198.51.100.100 icmp_seq=24 ttl=61 time=2.083 ms
+22:34:47.240  84 bytes from 198.51.100.100 icmp_seq=25 ttl=61 time=2.047 ms
+22:34:48.242  84 bytes from 198.51.100.100 icmp_seq=26 ttl=61 time=1.669 ms
+22:34:49.250  84 bytes from 198.51.100.100 icmp_seq=27 ttl=61 time=2.159 ms
+22:34:50.248  84 bytes from 198.51.100.100 icmp_seq=28 ttl=61 time=2.087 ms
+22:34:51.250  84 bytes from 198.51.100.100 icmp_seq=29 ttl=61 time=2.100 ms
+22:34:52.254  84 bytes from 198.51.100.100 icmp_seq=30 ttl=61 time=2.098 ms
+22:34:53.262  84 bytes from 198.51.100.100 icmp_seq=31 ttl=61 time=2.054 ms
+22:34:54.257  84 bytes from 198.51.100.100 icmp_seq=32 ttl=61 time=1.960 ms
+22:34:55.260  84 bytes from 198.51.100.100 icmp_seq=33 ttl=61 time=2.122 ms
+22:34:56.265  84 bytes from 198.51.100.100 icmp_seq=34 ttl=61 time=1.987 ms
+22:34:57.273  84 bytes from 198.51.100.100 icmp_seq=35 ttl=61 time=2.165 ms
+22:34:58.268  84 bytes from 198.51.100.100 icmp_seq=36 ttl=61 time=2.074 ms
+22:34:59.270  84 bytes from 198.51.100.100 icmp_seq=37 ttl=61 time=2.032 ms
+22:35:00.277  84 bytes from 198.51.100.100 icmp_seq=38 ttl=61 time=1.926 ms
+22:35:01.274  84 bytes from 198.51.100.100 icmp_seq=39 ttl=61 time=2.041 ms
+22:35:02.277  84 bytes from 198.51.100.100 icmp_seq=40 ttl=61 time=2.047 ms
+22:35:03.281  84 bytes from 198.51.100.100 icmp_seq=41 ttl=61 time=2.026 ms
+22:35:04.288  84 bytes from 198.51.100.100 icmp_seq=42 ttl=61 time=2.092 ms
+22:35:05.283  84 bytes from 198.51.100.100 icmp_seq=43 ttl=61 time=2.063 ms
+22:35:06.285  84 bytes from 198.51.100.100 icmp_seq=44 ttl=61 time=2.015 ms
+22:35:07.292  84 bytes from 198.51.100.100 icmp_seq=45 ttl=61 time=1.836 ms
+22:35:08.300  84 bytes from 198.51.100.100 icmp_seq=46 ttl=61 time=2.003 ms
+22:35:09.292  84 bytes from 198.51.100.100 icmp_seq=47 ttl=61 time=2.020 ms
+22:35:10.296  84 bytes from 198.51.100.100 icmp_seq=48 ttl=61 time=1.985 ms
+22:35:11.304  84 bytes from 198.51.100.100 icmp_seq=49 ttl=61 time=1.974 ms
+22:35:12.299  84 bytes from 198.51.100.100 icmp_seq=50 ttl=61 time=2.052 ms
+22:35:13.301  84 bytes from 198.51.100.100 icmp_seq=51 ttl=61 time=1.911 ms
+22:35:14.307  84 bytes from 198.51.100.100 icmp_seq=52 ttl=61 time=2.098 ms
+22:35:15.315  84 bytes from 198.51.100.100 icmp_seq=53 ttl=61 time=2.127 ms
+22:35:16.309  84 bytes from 198.51.100.100 icmp_seq=54 ttl=61 time=2.048 ms
+22:35:17.311  84 bytes from 198.51.100.100 icmp_seq=55 ttl=61 time=2.058 ms
+22:35:18.318  84 bytes from 198.51.100.100 icmp_seq=56 ttl=61 time=2.055 ms
+22:35:19.315  84 bytes from 198.51.100.100 icmp_seq=57 ttl=61 time=1.935 ms
+22:35:20.318  84 bytes from 198.51.100.100 icmp_seq=58 ttl=61 time=2.036 ms
+22:35:21.322  84 bytes from 198.51.100.100 icmp_seq=59 ttl=61 time=2.007 ms
+22:35:22.329  84 bytes from 198.51.100.100 icmp_seq=60 ttl=61 time=2.089 ms
+22:35:23.324  84 bytes from 198.51.100.100 icmp_seq=61 ttl=61 time=2.061 ms
+22:35:24.327  84 bytes from 198.51.100.100 icmp_seq=62 ttl=61 time=1.998 ms
+22:35:25.333  84 bytes from 198.51.100.100 icmp_seq=63 ttl=61 time=2.066 ms
+22:35:26.341  84 bytes from 198.51.100.100 icmp_seq=64 ttl=61 time=6.439 ms
+22:35:27.339  84 bytes from 198.51.100.100 icmp_seq=65 ttl=61 time=1.790 ms
+22:35:28.341  84 bytes from 198.51.100.100 icmp_seq=66 ttl=61 time=1.962 ms
+22:35:29.344  84 bytes from 198.51.100.100 icmp_seq=67 ttl=61 time=2.071 ms
+22:35:30.352  84 bytes from 198.51.100.100 icmp_seq=68 ttl=61 time=2.006 ms
+22:35:31.347  84 bytes from 198.51.100.100 icmp_seq=69 ttl=61 time=2.071 ms
+22:35:32.350  84 bytes from 198.51.100.100 icmp_seq=70 ttl=61 time=1.945 ms
+22:35:33.356  84 bytes from 198.51.100.100 icmp_seq=71 ttl=61 time=2.668 ms
+22:35:34.364  84 bytes from 198.51.100.100 icmp_seq=72 ttl=61 time=2.070 ms
+22:35:35.358  84 bytes from 198.51.100.100 icmp_seq=73 ttl=61 time=2.160 ms
+22:35:36.361  84 bytes from 198.51.100.100 icmp_seq=74 ttl=61 time=2.083 ms
+22:35:37.367  84 bytes from 198.51.100.100 icmp_seq=75 ttl=61 time=1.984 ms
+22:35:38.365  84 bytes from 198.51.100.100 icmp_seq=76 ttl=61 time=2.080 ms
+22:35:39.367  84 bytes from 198.51.100.100 icmp_seq=77 ttl=61 time=2.059 ms
+22:35:40.371  84 bytes from 198.51.100.100 icmp_seq=78 ttl=61 time=2.088 ms
+22:35:41.379  84 bytes from 198.51.100.100 icmp_seq=79 ttl=61 time=1.717 ms
+22:35:42.374  84 bytes from 198.51.100.100 icmp_seq=80 ttl=61 time=1.762 ms
+
+Falla: [admin@CORE-1] > /interface disable ether1   (22:34:27 reloj local; routers = local + 10800 s)
+EDGE ether3 running durante toda la falla: si
+Sondeo en EDGE (cada ~1-2 s): rutas_fuera_de_core1 +3 s
+Vecino CORE-1 fuera de EDGE: +35 s segun el log (el sondeo de ese dato fallo: la consulta devolvia "no such item" y no se tomo como ausente)
+Log EDGE relativo a la falla: +35 s  backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Full } timeout; +35 s .0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Full } state change to Down; +6 s script,warning NETWATCH CORE-1 down
+Rachas sin respuesta en PC-USER: []
+
+[admin@EDGE] > /interface print
+Flags: R - RUNNING
+Columns: NAME, TYPE, ACTUAL-MTU, L2MTU, MAC-ADDRESS
+#   NAME      TYPE      ACTUAL-MTU  L2MTU  MAC-ADDRESS      
+0 R ether1    ether           1500         0C:02:02:3B:00:00
+1 R ether2    ether           1500         0C:02:02:3B:00:01
+2 R ether3    ether           1500         0C:02:02:3B:00:02
+3 R ether4    ether           1500         0C:02:02:3B:00:03
+4 R lo        loopback       65536         00:00:00:00:00:00
+;;; loopback / router-id
+5 R loopback  bridge          1500  65535  22:2D:67:64:20:A8
+
+[admin@EDGE] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether4 address=10.0.0.6 
+      router-id=10.255.0.3 state="Full" state-changes=4 adjacency=1h40m28s 
+      timeout=32s 
+
+[admin@EDGE] > /ip route print where ospf
+Flags: D - DYNAMIC; A - ACTIVE; o - OSPF
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+    DST-ADDRESS      GATEWAY          ROUTING-TABLE  DISTANCE
+DAo 10.0.0.8/30      10.0.0.6%ether4  main                110
+DAo 10.0.0.12/30     10.0.0.6%ether4  main                110
+DAo 10.0.0.16/30     10.0.0.6%ether4  main                110
+DAo 10.0.0.20/30     10.0.0.6%ether4  main                110
+DAo 10.0.0.24/30     10.0.0.6%ether4  main                110
+DAo 10.255.0.2/32    10.0.0.6%ether4  main                110
+DAo 10.255.0.3/32    10.0.0.6%ether4  main                110
+DAo 10.255.0.4/32    10.0.0.6%ether4  main                110
+DAo 10.255.0.5/32    10.0.0.6%ether4  main                110
+DAo 192.168.10.0/24  10.0.0.6%ether4  main                110
+DAo 192.168.20.0/24  10.0.0.6%ether4  main                110
+
+[admin@EDGE] > /log print where topics~"ospf" and message~"10.255.0.2"
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Down } state change to Init
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Init } state change to ExStart
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: ExStart } negotiation done
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: ExStart } state change to Exchange
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } exchange lsdb size 1
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } exchange done
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } state change to Loading
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Loading } loading done
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Loading } state change to Full
+ 2026-10-24 00:40:46 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%*4 } neighbor { router-id: 10.255.0.2 state: Full } state change to Down
+ 2026-10-24 00:50:00 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Down } state change to Init
+ 2026-10-24 00:50:10 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Init } state change to TwoWay
+ 2026-10-24 00:50:10 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: TwoWay } state change to ExStart
+ 2026-10-24 00:50:10 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: ExStart } negotiation done
+ 2026-10-24 00:50:10 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: ExStart } state change to Exchange
+ 2026-10-24 00:50:10 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } exchange lsdb size 6
+ 2026-10-24 00:50:10 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } exchange done
+ 2026-10-24 00:50:10 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } state change to Full
+ 2026-10-24 01:32:53 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Full } state change to Init
+ 2026-10-24 01:33:00 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Init } state change to TwoWay
+ 2026-10-24 01:33:00 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: TwoWay } state change to ExStart
+ 2026-10-24 01:33:00 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: ExStart } negotiation done
+ 2026-10-24 01:33:00 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: ExStart } state change to Exchange
+ 2026-10-24 01:33:00 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } exchange lsdb size 6
+ 2026-10-24 01:33:00 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } exchange done
+ 2026-10-24 01:33:00 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } state change to Full
+ 2026-10-24 01:35:03 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Full } timeout
+ 2026-10-24 01:35:03 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Full } state change to Down

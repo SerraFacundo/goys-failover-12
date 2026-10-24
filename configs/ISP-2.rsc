@@ -34,6 +34,7 @@
 /snmp community set [find name=public] disabled=yes
 /snmp community add name=goys12 security=private authentication-protocol=SHA1 encryption-protocol=AES authentication-password="<K-SNMP-AUTH>" encryption-password="<K-SNMP-PRIV>" addresses=192.168.20.10/32,10.255.0.0/24 read-access=yes write-access=no
 /snmp set enabled=yes contact="Grupo 12 GOYS" location="GNS3 lab failover" trap-version=3
+/snmp set trap-community=goys12
 
 # ===== F4: ruta de vuelta hacia las LANs - ISP-1 e ISP-2 (dueno R1 por rotacion) =====
 # Sin BGP el ISP no conoce las LANs. Distancia 30, detras de la ruta BGP (20).

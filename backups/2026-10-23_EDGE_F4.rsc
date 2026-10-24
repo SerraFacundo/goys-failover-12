@@ -1,4 +1,4 @@
-# 2026-10-24 01:25:45 by RouterOS 7.23.8
+# 2026-10-24 01:46:02 by RouterOS 7.23.8
 # system id = koCxSKn9a0I
 #
 /interface bridge add comment="loopback / router-id" name=loopback
@@ -68,7 +68,7 @@
 /routing filter rule add chain=to-isp rule=reject
 /routing ospf interface-template add area=backbone auth=md5 auth-id=1 interfaces=ether3,ether4 type=ptp
 /routing ospf interface-template add area=backbone interfaces=loopback passive
-/snmp set contact="Grupo 12 GOYS" enabled=yes location="GNS3 lab failover" trap-version=3
+/snmp set contact="Grupo 12 GOYS" enabled=yes location="GNS3 lab failover" trap-community=goys12 trap-version=3
 /system identity set name=EDGE
 /tool bandwidth-server set enabled=no
 /tool mac-server set allowed-interface-list=none

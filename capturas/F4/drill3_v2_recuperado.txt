@@ -1,0 +1,59 @@
+# Drill 3 corrida 2 (falla del lado lejano) - recuperado - 2026-10-23 22:40:28
+
+[admin@ISP-1] > /interface enable ether1   (22:39:38 reloj local)
+Recuperado en EDGE a los 4 s
+Rachas sin respuesta en PC-USER durante la vuelta: []
+
+PC-USER> ping 198.51.100.100 -t
+22:39:39.363  84 bytes from 198.51.100.100 icmp_seq=113 ttl=61 time=2.019 ms
+22:39:40.370  84 bytes from 198.51.100.100 icmp_seq=114 ttl=61 time=1.940 ms
+22:39:41.363  84 bytes from 198.51.100.100 icmp_seq=115 ttl=61 time=2.088 ms
+22:39:42.366  84 bytes from 198.51.100.100 icmp_seq=116 ttl=61 time=2.182 ms
+22:39:43.374  84 bytes from 198.51.100.100 icmp_seq=117 ttl=61 time=2.291 ms
+22:39:44.381  84 bytes from 198.51.100.100 icmp_seq=118 ttl=61 time=1.951 ms
+22:39:45.375  84 bytes from 198.51.100.100 icmp_seq=119 ttl=61 time=2.517 ms
+22:39:46.377  84 bytes from 198.51.100.100 icmp_seq=120 ttl=61 time=1.982 ms
+22:39:47.384  84 bytes from 198.51.100.100 icmp_seq=121 ttl=61 time=1.913 ms
+22:39:48.392  84 bytes from 198.51.100.100 icmp_seq=122 ttl=61 time=2.960 ms
+
+[admin@EDGE] > /routing bgp session print
+Flags: E - ESTABLISHED 
+ 0 E name="ISP-1-1" instance=bgp1 
+     remote.address=203.0.113.1 .as=65001 .id=10.255.0.11 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=3 .bytes=118 .eor="" 
+     local.address=203.0.113.2 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=2 .bytes=71 .eor="" 
+     output.procid=20 .filter-chain=to-isp 
+     .last-notification=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0015030400 
+     input.procid=20 .filter=from-isp1 ebgp 
+     hold-time=3m keepalive-time=1m uptime=9s530ms 
+     last-started=2026-10-24 01:39:40 last-stopped=2026-10-24 01:39:19 
+     prefix-count=3 
+ 1 E name="ISP-2-1" instance=bgp1 
+     remote.address=203.0.113.5 .as=65002 .id=10.255.0.12 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=19 .bytes=422 .eor="" 
+     local.address=203.0.113.6 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=18 .bytes=375 .eor="" 
+     output.procid=21 .filter-chain=to-isp 
+     input.procid=21 .filter=from-isp2 ebgp 
+     hold-time=3m keepalive-time=1m uptime=16m15s510ms 
+     last-started=2026-10-24 01:23:34 last-stopped=2026-10-24 01:22:30 
+-- [Q quit|D dump|down]
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+     prefix-count=3 
+[admin@EDGE] > route print where dst-address=0.0.0.0/0
+bad command name route (line 1 column 1)
+
+PC-USER> trace 198.51.100.100
+trace to 198.51.100.100, 8 hops max, press Ctrl+C to stop
+ 1   192.168.10.2   0.343 ms  0.301 ms  0.286 ms
+ 2   10.0.0.17   0.800 ms  0.682 ms  0.627 ms
+ 3   10.0.0.5   1.261 ms  1.088 ms  1.080 ms
+ 4   *198.51.100.100   1.780 ms (ICMP type:3, code:3, Destination port unreachable)
+
+PC-USER>
+
+Estado previo verificado: si {'ospf': {'EDGE': '2', 'CORE-1': '4', 'CORE-2': '4', 'DIST-1': '2', 'DIST-2': '2'}, 'bgp': '2', 'default': '203.0.113.1', 'vrrp1': '0 RM name=vrrp10 | 1  B name=vrrp20', 'vrrp2': '0  B name=vrrp10 | 1 RM name=vrrp20'}

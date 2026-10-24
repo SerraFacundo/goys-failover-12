@@ -1,4 +1,4 @@
-# 2026-10-24 01:26:01 by RouterOS 7.23.8
+# 2026-10-24 01:46:18 by RouterOS 7.23.8
 # system id = aLK0CNpkqfJ
 #
 /interface bridge add comment="loopback / router-id" name=loopback
@@ -42,7 +42,7 @@
 /ip service set api-ssl disabled=yes
 /routing ospf interface-template add area=backbone auth=md5 auth-id=1 interfaces=ether1,ether2 type=ptp
 /routing ospf interface-template add area=backbone interfaces=loopback,ether3,ether4 passive
-/snmp set contact="Grupo 12 GOYS" enabled=yes location="GNS3 lab failover" trap-version=3
+/snmp set contact="Grupo 12 GOYS" enabled=yes location="GNS3 lab failover" trap-community=goys12 trap-version=3
 /system identity set name=DIST-1
 /tool bandwidth-server set enabled=no
 /tool mac-server set allowed-interface-list=none

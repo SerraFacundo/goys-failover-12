@@ -1,0 +1,110 @@
+# Drill 2 corrida 2 (falla del lado lejano) - estado previo - 2026-10-23 22:34:22
+
+[admin@EDGE] > /interface print
+Flags: R - RUNNING
+Columns: NAME, TYPE, ACTUAL-MTU, L2MTU, MAC-ADDRESS
+#   NAME      TYPE      ACTUAL-MTU  L2MTU  MAC-ADDRESS      
+0 R ether1    ether           1500         0C:02:02:3B:00:00
+1 R ether2    ether           1500         0C:02:02:3B:00:01
+2 R ether3    ether           1500         0C:02:02:3B:00:02
+3 R ether4    ether           1500         0C:02:02:3B:00:03
+4 R lo        loopback       65536         00:00:00:00:00:00
+;;; loopback / router-id
+5 R loopback  bridge          1500  65535  22:2D:67:64:20:A8
+
+[admin@EDGE] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether4 address=10.0.0.6 
+      router-id=10.255.0.3 state="Full" state-changes=4 adjacency=1h39m3s 
+      timeout=37s 
+ 1  D instance=ospf1 area=backbone interface=ether3 address=10.0.0.2 
+      router-id=10.255.0.2 state="Full" state-changes=10 adjacency=1m21s 
+      timeout=32s 
+
+[admin@EDGE] > /ip route print where ospf
+Flags: D - DYNAMIC; A - ACTIVE; o - OSPF; + - ECMP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+     DST-ADDRESS      GATEWAY          ROUTING-TABLE  DISTANCE
+DAo+ 10.0.0.8/30      10.0.0.6%ether4  main                110
+DAo+ 10.0.0.8/30      10.0.0.2%ether3  main                110
+DAo  10.0.0.12/30     10.0.0.2%ether3  main                110
+DAo  10.0.0.16/30     10.0.0.2%ether3  main                110
+DAo  10.0.0.20/30     10.0.0.6%ether4  main                110
+DAo  10.0.0.24/30     10.0.0.6%ether4  main                110
+DAo  10.255.0.2/32    10.0.0.2%ether3  main                110
+DAo  10.255.0.3/32    10.0.0.6%ether4  main                110
+DAo+ 10.255.0.4/32    10.0.0.6%ether4  main                110
+DAo+ 10.255.0.4/32    10.0.0.2%ether3  main                110
+DAo+ 10.255.0.5/32    10.0.0.6%ether4  main                110
+DAo+ 10.255.0.5/32    10.0.0.2%ether3  main                110
+DAo+ 192.168.10.0/24  10.0.0.6%ether4  main                110
+DAo+ 192.168.10.0/24  10.0.0.2%ether3  main                110
+DAo+ 192.168.20.0/24  10.0.0.6%ether4  main                110
+DAo+ 192.168.20.0/24  10.0.0.2%ether3  main                110
+
+[admin@CORE-1] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether2 address=10.0.0.10 
+      router-id=10.255.0.3 state="Full" state-changes=6 adjacency=1h39m8s 
+      timeout=36s 
+ 1  D instance=ospf1 area=backbone interface=ether4 address=10.0.0.18 
+      router-id=10.255.0.5 state="Full" state-changes=5 adjacency=12m6s 
+      timeout=36s 
+ 2  D instance=ospf1 area=backbone interface=ether3 address=10.0.0.14 
+      router-id=10.255.0.4 state="Full" state-changes=6 adjacency=1h38m48s 
+      timeout=40s 
+ 3  D instance=ospf1 area=backbone interface=ether1 address=10.0.0.1 
+      router-id=10.255.0.1 state="Full" state-changes=4 adjacency=1m22s 
+      timeout=38s
+
+# Verificacion previa: disable del lado lejano 2 s, EDGE sigue running
+
+## CORE-1 /interface disable ether1 (22:32:49 reloj local), EDGE ether3 running=true
+[admin@EDGE] > /interface print   (antes)
+Flags: R - RUNNING
+Columns: NAME, TYPE, ACTUAL-MTU, L2MTU, MAC-ADDRESS
+#   NAME      TYPE      ACTUAL-MTU  L2MTU  MAC-ADDRESS      
+0 R ether1    ether           1500         0C:02:02:3B:00:00
+1 R ether2    ether           1500         0C:02:02:3B:00:01
+2 R ether3    ether           1500         0C:02:02:3B:00:02
+3 R ether4    ether           1500         0C:02:02:3B:00:03
+4 R lo        loopback       65536         00:00:00:00:00:00
+;;; loopback / router-id
+5 R loopback  bridge          1500  65535  22:2D:67:64:20:A8
+[admin@EDGE] > /interface print   (2 s despues del disable en CORE-1)
+Flags: R - RUNNING
+Columns: NAME, TYPE, ACTUAL-MTU, L2MTU, MAC-ADDRESS
+#   NAME      TYPE      ACTUAL-MTU  L2MTU  MAC-ADDRESS      
+0 R ether1    ether           1500         0C:02:02:3B:00:00
+1 R ether2    ether           1500         0C:02:02:3B:00:01
+2 R ether3    ether           1500         0C:02:02:3B:00:02
+3 R ether4    ether           1500         0C:02:02:3B:00:03
+4 R lo        loopback       65536         00:00:00:00:00:00
+;;; loopback / router-id
+5 R loopback  bridge          1500  65535  22:2D:67:64:20:A8
+[admin@CORE-1] > /interface enable ether1
+
+## ISP-1 /interface disable ether1 (22:33:16 reloj local), EDGE ether1 running=true
+[admin@EDGE] > /interface print   (antes)
+Flags: R - RUNNING
+Columns: NAME, TYPE, ACTUAL-MTU, L2MTU, MAC-ADDRESS
+#   NAME      TYPE      ACTUAL-MTU  L2MTU  MAC-ADDRESS      
+0 R ether1    ether           1500         0C:02:02:3B:00:00
+1 R ether2    ether           1500         0C:02:02:3B:00:01
+2 R ether3    ether           1500         0C:02:02:3B:00:02
+3 R ether4    ether           1500         0C:02:02:3B:00:03
+4 R lo        loopback       65536         00:00:00:00:00:00
+;;; loopback / router-id
+5 R loopback  bridge          1500  65535  22:2D:67:64:20:A8
+[admin@EDGE] > /interface print   (2 s despues del disable en ISP-1)
+Flags: R - RUNNING
+Columns: NAME, TYPE, ACTUAL-MTU, L2MTU, MAC-ADDRESS
+#   NAME      TYPE      ACTUAL-MTU  L2MTU  MAC-ADDRESS      
+0 R ether1    ether           1500         0C:02:02:3B:00:00
+1 R ether2    ether           1500         0C:02:02:3B:00:01
+2 R ether3    ether           1500         0C:02:02:3B:00:02
+3 R ether4    ether           1500         0C:02:02:3B:00:03
+4 R lo        loopback       65536         00:00:00:00:00:00
+;;; loopback / router-id
+5 R loopback  bridge          1500  65535  22:2D:67:64:20:A8
+[admin@ISP-1] > /interface enable ether1

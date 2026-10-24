@@ -54,5 +54,5 @@ Valor de referencia: VRRP v2 con advertisement de 1 s declara caído al master a
 
 - ¿El host cambió de gateway? No: sigue apuntando a `192.168.10.1`. Lo que cambia es qué router responde por la IP y la MAC virtual (`00:00:5E:00:01:0A`).
 - ¿Coincide el tiempo con el de referencia? Sí: DIST-2 pasó vrrp10 a MASTER a los 4 s de bajar ether3 (log 00:14:25 → 00:14:29, hora router), cerca de los ~3 s + skew. El conteo da 2 s porque en VPCS cada timeout tarda ~2 s: entre la última respuesta y la siguiente pasaron ~5 s de reloj.
-- Variante: si en vez de bajar `ether3` se apaga el nodo DIST-1 entero, la vuelta del tráfico desde el core puede tardar hasta el dead interval de OSPF (40 s), porque los CORE siguen viendo a DIST-1 como vecino. Probado: sí / no. Resultado: no medido: la variante no se ejecutó en esta corrida.
+- Variante: si en vez de bajar `ether3` se apaga el nodo DIST-1 entero, la vuelta del tráfico desde el core puede tardar hasta el dead interval de OSPF (40 s), porque los CORE siguen viendo a DIST-1 como vecino. Probado: no. Resultado: no medido: la variante no se ejecutó en esta corrida.
 - Mejora posible: con lo medido no hizo falta. Observado en la vuelta: DIST-1 entró como BACKUP y retomó vrrp10 a los 10 s (log 00:14:43 → 00:14:53) sin perder pings.

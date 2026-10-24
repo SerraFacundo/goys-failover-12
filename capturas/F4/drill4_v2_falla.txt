@@ -1,0 +1,82 @@
+# Drill 4 corrida 2 (falla del lado lejano) - falla - 2026-10-23 22:44:23
+
+PC-USER> ping 198.51.100.100 -t
+22:43:45.229  84 bytes from 198.51.100.100 icmp_seq=4 ttl=61 time=2.232 ms
+22:43:46.237  84 bytes from 198.51.100.100 icmp_seq=5 ttl=61 time=1.999 ms
+22:43:47.231  84 bytes from 198.51.100.100 icmp_seq=6 ttl=61 time=2.060 ms
+22:43:49.232  198.51.100.100 icmp_seq=7 timeout
+22:43:51.238  198.51.100.100 icmp_seq=8 timeout
+22:43:53.233  198.51.100.100 icmp_seq=9 timeout
+22:43:55.233  198.51.100.100 icmp_seq=10 timeout
+22:43:57.234  198.51.100.100 icmp_seq=11 timeout
+22:43:59.240  198.51.100.100 icmp_seq=12 timeout
+22:44:01.235  198.51.100.100 icmp_seq=13 timeout
+22:44:03.235  198.51.100.100 icmp_seq=14 timeout
+22:44:05.236  198.51.100.100 icmp_seq=15 timeout
+22:44:07.242  198.51.100.100 icmp_seq=16 timeout
+22:44:09.238  198.51.100.100 icmp_seq=17 timeout
+22:44:10.246  84 bytes from 198.51.100.100 icmp_seq=18 ttl=61 time=2.151 ms
+22:44:11.242  84 bytes from 198.51.100.100 icmp_seq=19 ttl=61 time=2.081 ms
+22:44:12.245  84 bytes from 198.51.100.100 icmp_seq=20 ttl=61 time=2.100 ms
+22:44:13.249  84 bytes from 198.51.100.100 icmp_seq=21 ttl=61 time=2.099 ms
+22:44:14.257  84 bytes from 198.51.100.100 icmp_seq=22 ttl=61 time=2.071 ms
+22:44:15.251  84 bytes from 198.51.100.100 icmp_seq=23 ttl=61 time=2.062 ms
+22:44:16.253  84 bytes from 198.51.100.100 icmp_seq=24 ttl=61 time=2.071 ms
+22:44:17.261  84 bytes from 198.51.100.100 icmp_seq=25 ttl=61 time=2.127 ms
+22:44:18.258  84 bytes from 198.51.100.100 icmp_seq=26 ttl=61 time=2.030 ms
+22:44:19.260  84 bytes from 198.51.100.100 icmp_seq=27 ttl=61 time=2.073 ms
+
+Falla: [admin@ISP-1] > /interface disable ether1   (22:43:46 reloj local; routers = local + 10800 s)
+EDGE ether1 running durante toda la falla: si
+Sondeo en EDGE (cada ~1-2 s): chk1_inactiva +24 s
+Log EDGE relativo a la falla: +2 s script,warning NETWATCH ISP-1 down
+Corte de reloj en PC-USER (ultima respuesta antes del corte -> primera respuesta despues): 23.0 s
+Rachas sin respuesta en PC-USER: [11]
+
+[admin@EDGE] > /interface print
+Flags: R - RUNNING
+Columns: NAME, TYPE, ACTUAL-MTU, L2MTU, MAC-ADDRESS
+#   NAME      TYPE      ACTUAL-MTU  L2MTU  MAC-ADDRESS      
+0 R ether1    ether           1500         0C:02:02:3B:00:00
+1 R ether2    ether           1500         0C:02:02:3B:00:01
+2 R ether3    ether           1500         0C:02:02:3B:00:02
+3 R ether4    ether           1500         0C:02:02:3B:00:03
+4 R lo        loopback       65536         00:00:00:00:00:00
+;;; loopback / router-id
+5 R loopback  bridge          1500  65535  22:2D:67:64:20:A8
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: I - INACTIVE, A - ACTIVE; s - STATIC
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#    DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+;;; chk-ISP1
+0 Is 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1 As 0.0.0.0/0    203.0.113.5  main                 31
+
+[admin@EDGE] > /tool netwatch print
+Columns: TYPE, HOST, INTERVAL, STATUS, SINCE
+# TYPE  HOST         INTERVAL  STATUS  SINCE              
+;;; ISP-1
+0 icmp  203.0.113.1  5s        down    2026-10-24 01:43:49
+;;; ISP-2
+1 icmp  203.0.113.5  5s        up      2026-10-23 23:59:55
+;;; CORE-1
+2 icmp  10.0.0.2     5s        up      2026-10-24 01:35:53
+;;; CORE-2
+3 icmp  10.0.0.6     5s        up      2026-10-23 23:59:56
+
+[admin@EDGE] > /log print where message~"NETWATCH ISP-1"
+ 2026-10-23 23:59:51 system,info Netwatch config added by console:admin+ct@ttyS0 (*1 = /tool netwatch add comment=ISP-1 down-script=":log warning \"NETWATCH ISP-1 down\"" host=203.0.113.1 interval=5s type=icmp up-script=":log info \"NETWATCH ISP-1 up\"")
+ 2026-10-23 23:59:54 script,info NETWATCH ISP-1 up
+ 2026-10-24 00:51:57 script,warning NETWATCH ISP-1 down
+ 2026-10-24 01:14:42 script,info NETWATCH ISP-1 up
+ 2026-10-24 01:19:18 script,warning NETWATCH ISP-1 down
+ 2026-10-24 01:20:17 script,info NETWATCH ISP-1 up
+ 2026-10-24 01:33:19 script,warning NETWATCH ISP-1 down
+ 2026-10-24 01:33:23 script,info NETWATCH ISP-1 up
+ 2026-10-24 01:36:59 script,warning NETWATCH ISP-1 down
+ 2026-10-24 01:39:43 script,info NETWATCH ISP-1 up
+ 2026-10-24 01:41:09 script,warning NETWATCH ISP-1 down
+ 2026-10-24 01:42:18 script,info NETWATCH ISP-1 up
+ 2026-10-24 01:43:49 script,warning NETWATCH ISP-1 down

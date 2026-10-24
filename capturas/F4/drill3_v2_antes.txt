@@ -1,0 +1,69 @@
+# Drill 3 corrida 2 (falla del lado lejano) - estado previo - 2026-10-23 22:36:51
+
+[admin@EDGE] > /interface print
+Flags: R - RUNNING
+Columns: NAME, TYPE, ACTUAL-MTU, L2MTU, MAC-ADDRESS
+#   NAME      TYPE      ACTUAL-MTU  L2MTU  MAC-ADDRESS      
+0 R ether1    ether           1500         0C:02:02:3B:00:00
+1 R ether2    ether           1500         0C:02:02:3B:00:01
+2 R ether3    ether           1500         0C:02:02:3B:00:02
+3 R ether4    ether           1500         0C:02:02:3B:00:03
+4 R lo        loopback       65536         00:00:00:00:00:00
+;;; loopback / router-id
+5 R loopback  bridge          1500  65535  22:2D:67:64:20:A8
+
+[admin@EDGE] > /routing bgp session print
+Flags: E - ESTABLISHED 
+ 0 E name="ISP-1-1" instance=bgp1 
+     remote.address=203.0.113.1 .as=65001 .id=10.255.0.11 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=19 .bytes=422 .eor="" 
+     local.address=203.0.113.2 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=18 .bytes=375 .eor="" 
+     output.procid=20 .filter-chain=to-isp 
+     input.procid=20 .filter=from-isp1 ebgp 
+     hold-time=3m keepalive-time=1m uptime=16m29s70ms 
+     last-started=2026-10-24 01:20:19 prefix-count=3 
+ 1 E name="ISP-2-1" instance=bgp1 
+     remote.address=203.0.113.5 .as=65002 .id=10.255.0.12 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=16 .bytes=365 .eor="" 
+     local.address=203.0.113.6 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=15 .bytes=318 .eor="" 
+     output.procid=21 .filter-chain=to-isp 
+     input.procid=21 .filter=from-isp2 ebgp 
+     hold-time=3m keepalive-time=1m uptime=13m14s510ms 
+     last-started=2026-10-24 01:23:34 last-stopped=2026-10-24 01:22:30 
+     prefix-count=3 
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: D - DYNAMIC; A - ACTIVE; s - STATIC, b - BGP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#     DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+;;; chk-ISP1
+0   s 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1   s 0.0.0.0/0    203.0.113.5  main                 31
+  DAb 0.0.0.0/0    203.0.113.1  main                 20
+  D b 0.0.0.0/0    203.0.113.5  main                 20
+
+[admin@EDGE] > /tool netwatch print
+Columns: TYPE, HOST, INTERVAL, STATUS, SINCE
+# TYPE  HOST         INTERVAL  STATUS  SINCE              
+;;; ISP-1
+0 icmp  203.0.113.1  5s        up      2026-10-24 01:33:23
+;;; ISP-2
+1 icmp  203.0.113.5  5s        up      2026-10-23 23:59:55
+;;; CORE-1
+2 icmp  10.0.0.2     5s        up      2026-10-24 01:35:53
+;;; CORE-2
+3 icmp  10.0.0.6     5s        up      2026-10-23 23:59:56
+
+PC-USER> trace 198.51.100.100
+trace to 198.51.100.100, 8 hops max, press Ctrl+C to stop
+ 1   192.168.10.2   0.342 ms  0.302 ms  0.354 ms
+ 2   10.0.0.17   0.900 ms  0.794 ms  0.708 ms
+ 3   10.0.0.5   1.358 ms  1.138 ms  1.076 ms
+ 4   *198.51.100.100   1.733 ms (ICMP type:3, code:3, Destination port unreachable)
+
+PC-USER>

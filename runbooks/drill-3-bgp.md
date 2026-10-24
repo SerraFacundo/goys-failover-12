@@ -52,4 +52,27 @@ Valor de referencia: con el link arriba pero sin tráfico, BGP espera al hold-ti
 
 - ¿Por qué netwatch detectó antes que BGP? Netwatch hace ping cada 5 s y marcó down a los 3 s; BGP solo da de baja la sesión por hold-time (HoldTimer expired a los 170 s). Igual el host cortó 1 s: el Suspend baja el link, la ruta BGP vía 203.0.113.1 quedó inactiva al instante por next-hop inalcanzable (con la sesión todavía established) y la default pasó a 203.0.113.5. Al volver, la sesión ISP-1 quedó established a los 3 s del link up y la default volvió a 203.0.113.1 a los 5 s.
 - ¿Qué pasa con el tráfico que entra desde Internet hacia las LANs durante el corte? ISP-1 sigue teniendo la ruta BGP hasta su propio hold-time. No medido: no se generó tráfico desde Internet hacia las LANs. Observado: ISP-1 también registró ether1 link down a las 00:51:54 (hora router), el mismo segundo que EDGE.
-- Mejora posible: `hold-time=9s keepalive-time=3s` en las dos conexiones, o BFD. Probado: sí / no. Resultado: no medido: no se probó en esta corrida.
+- Mejora posible: `hold-time=9s keepalive-time=3s` en las dos conexiones, o BFD. Probado: no. Resultado: no medido: no se probó en esta corrida.
+
+## Corrida 2 (falla del lado lejano)
+
+Fecha / hora: 2026-10-23 22:36 (hora local; los routers marcan 2026-10-24 01:36).
+Falla inyectada: `ISP-1> /interface disable ether1`. EDGE `ether1` siguió `running` durante toda la falla.
+Evidencia: `capturas/F4/drill3_v2_antes.txt`, `drill3_v2_falla.txt`, `drill3_v2_recuperado.txt`.
+
+| Medición | Valor |
+|----------|-------|
+| Netwatch marca ISP-1 down a los | 3 s (log) |
+| BGP da de baja la sesión a los | 143 s (log: `HoldTimer expired`) |
+| Default activa pasa a 203.0.113.5 | +145 s (sondeo) |
+| Pings perdidos en PC-USER | 88 |
+| Tiempo de corte total del host (timeouts × 1 s) | 88 s |
+| Tiempo de corte de reloj (última respuesta → primera respuesta) | 144,5 s |
+| Tiempo hasta volver a ISP-1 (`/interface enable ether1` en ISP-1) | 4 s |
+
+Post-mortem:
+- Con el link de EDGE arriba, la ruta BGP vía 203.0.113.1 siguió activa: el next-hop es directamente conectado y la interfaz no cayó. El tráfico se perdió hasta que expiró el hold-time.
+- La sesión cayó a los 143 s y no a los 180 s porque el hold-time corre desde el último keepalive recibido, que llegó unos 37 s antes del disable.
+- Netwatch vio la falla a los 3 s, pero solo escribe en el log: no cambia rutas. Con BGP solo, el corte del host es el hold-time.
+- El conteo de timeouts (88) subestima el corte: en VPCS cada timeout tarda unos 1,6 s. El corte real fue de 144,5 s.
+- Mejora posible (no probada): `hold-time=9s keepalive-time=3s` o BFD; o un `down-script` de netwatch que deshabilite la conexión ISP-1.

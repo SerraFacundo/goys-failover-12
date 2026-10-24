@@ -41,7 +41,7 @@
 - [x] [R2] ISP-1 e ISP-2: bloque F1
 - [x] [R3] CORE-1 y CORE-2: bloque F1
 - [x] [R4] DIST-1 y DIST-2: bloque F1
-- [x] [R5] hosts VPCS + ping entre vecinos de cada /30 (`capturas/edge_prueba.png`, `core_1.png`, `core_2.png`, `pc_prueba.png`, `sever_prueba.png`)
+- [x] [R5] hosts VPCS + ping entre vecinos de cada /30 (`capturas/F1/edge_prueba.png`, `core_1.png`, `core_2.png`, `pc_prueba.png`, `sever_prueba.png`)
 
 ### Snapshot BASE
 - [x] [R5] snapshot `BASE` en GNS3 (`BASE_141026_233041`, 14/10 23:30, dentro del proyecto)
@@ -63,7 +63,7 @@
 ## Epic F2 — VRRP + OSPF · *vence vie 16/10*
 
 ### VRRP (2 grupos, load-sharing, auth)
-- [x] [R1] warm-up `laboratorio-vrrp.md`: failover R1/R2 probado (`capturas/ping_failover.png`)
+- [x] [R1] warm-up `laboratorio-vrrp.md`: failover R1/R2 probado (`capturas/warmup/ping_failover.png`)
 - [x] [R4] VRRP vrid 10 en DIST-1 (master, prio 200) y DIST-2 (backup, prio 100)
 - [x] [R4] VRRP vrid 20 en DIST-2 (master, prio 200) y DIST-1 (backup, prio 100)
 - [x] [R4] auth `ah` (VRRPv2) en ambos grupos + filtro VRRP (con `ah` el paquete es IP 51, no 112: el filtro va por `ipsec-ah`)

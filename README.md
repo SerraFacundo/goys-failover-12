@@ -40,8 +40,8 @@ El diseño (IPAM, corrección del diagrama, seguridad y operación) está en [`d
 | F1 | Topología + hardening + backup | 9/10 | Entregado 14/10, restore probado 15/10 |
 | F2 | VRRP + OSPF | 16/10 | Hecho 15/10 |
 | F3 | BGP + firewall | 16/10 | Hecho 15/10 |
-| F4 | Drills + monitoreo | 20/10 | Hecho 23/10 (atrasado) |
-| F5 | Memoria + defensa | 23/10 | Memoria entregada 24/10 (atrasado); defensa en clase |
+| F4 | Drills + monitoreo | 20/10 | Hecho 23/10 |
+| F5 | Memoria + defensa | 23/10 | Memoria entregada 24/10; defensa en clase |
 
 El detalle por tarea está en [`backlog.md`](backlog.md) y la memoria completa en [`docs/memoria.md`](docs/memoria.md).
 

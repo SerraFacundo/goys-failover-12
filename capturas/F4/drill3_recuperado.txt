@@ -1,0 +1,60 @@
+# Drill 3 - recuperado - 2026-10-23 22:15:24
+
+PC-USER> ping 198.51.100.100 -t
+22:14:37.949  84 bytes from 198.51.100.100 icmp_seq=1176 ttl=61 time=2.134 ms
+22:14:38.957  84 bytes from 198.51.100.100 icmp_seq=1177 ttl=61 time=2.030 ms
+22:14:39.954  84 bytes from 198.51.100.100 icmp_seq=1178 ttl=61 time=2.105 ms
+22:14:40.957  84 bytes from 198.51.100.100 icmp_seq=1179 ttl=61 time=2.142 ms
+22:14:41.960  84 bytes from 198.51.100.100 icmp_seq=1180 ttl=61 time=1.950 ms
+22:14:42.968  84 bytes from 198.51.100.100 icmp_seq=1181 ttl=61 time=2.077 ms
+22:14:43.964  84 bytes from 198.51.100.100 icmp_seq=1182 ttl=61 time=2.019 ms
+22:14:44.967  84 bytes from 198.51.100.100 icmp_seq=1183 ttl=61 time=2.355 ms
+22:14:45.973  84 bytes from 198.51.100.100 icmp_seq=1184 ttl=61 time=2.042 ms
+22:14:46.981  84 bytes from 198.51.100.100 icmp_seq=1185 ttl=61 time=2.306 ms
+22:14:47.975  84 bytes from 198.51.100.100 icmp_seq=1186 ttl=61 time=2.070 ms
+22:14:48.977  84 bytes from 198.51.100.100 icmp_seq=1187 ttl=61 time=2.022 ms
+22:14:49.985  84 bytes from 198.51.100.100 icmp_seq=1188 ttl=61 time=2.013 ms
+
+Resume del cable (log EDGE 'ether1 link up'): 22:14:40 reloj local
+Recuperado en EDGE: 22:14:44 = +5 s
+Eventos del log relativos al Resume: +3 s route,bgp,info connection 203.0.113.2:179 from 203.0.113.1:179; +3 s route,bgp,info ISP-1-1 {l_addr: 203.0.113.2, r_addr: 203.0.113.1} Established
+Rachas sin respuesta en PC-USER: []
+
+[admin@EDGE] > /routing bgp session print
+Flags: E - ESTABLISHED 
+ 0 E name="ISP-1-1" instance=bgp1 
+     remote.address=203.0.113.1 .as=65001 .id=10.255.0.11 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=3 .bytes=118 .eor="" 
+     local.address=203.0.113.2 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=2 .bytes=71 .eor="" 
+     output.procid=20 .filter-chain=to-isp 
+     .last-notification=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0015030400 
+     input.procid=20 .filter=from-isp1 ebgp 
+     hold-time=3m keepalive-time=1m uptime=9s810ms 
+     last-started=2026-10-24 01:14:43 last-stopped=2026-10-24 00:54:44 
+     prefix-count=3 
+ 1 E name="ISP-2-1" instance=bgp1 
+     remote.address=203.0.113.5 .as=65002 .id=10.255.0.12 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=82 .bytes=1619 .eor="" 
+     local.address=203.0.113.6 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=81 .bytes=1572 .eor="" 
+     output.procid=21 .filter-chain=to-isp 
+     input.procid=21 .filter=from-isp2 ebgp 
+     hold-time=3m keepalive-time=1m uptime=1h19m1s880ms 
+     last-started=2026-10-23 23:55:50 prefix-count=3 
+-- [Q quit|D dump|down]
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+[admin@EDGE] > route print where dst-address=0.0.0.0/0
+bad command name route (line 1 column 1)
+
+PC-USER> trace 198.51.100.100
+trace to 198.51.100.100, 8 hops max, press Ctrl+C to stop
+ 1   192.168.10.2   0.366 ms  0.369 ms  0.397 ms
+ 2   10.0.0.17   1.046 ms  0.839 ms  0.724 ms
+ 3   10.0.0.5   1.351 ms  1.145 ms  1.092 ms
+ 4   *198.51.100.100   1.487 ms (ICMP type:3, code:3, Destination port unreachable)
+
+PC-USER>

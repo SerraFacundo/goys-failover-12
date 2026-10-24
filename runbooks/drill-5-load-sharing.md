@@ -5,7 +5,7 @@
 | Mecanismo | VRRP vrid 10 master en DIST-1, vrid 20 master en DIST-2 |
 | Ejecuta | R5 (hosts) + R4 (DIST) |
 | Falla inyectada | DIST-2 pierde la LAN SERVERS (`ether4`) |
-| Fecha / hora | ____ |
+| Fecha / hora | 2026-10-23 21:15 (hora local; los routers marcan 2026-10-24 00:15) |
 
 ## Estado previo: los dos DIST trabajan a la vez
 
@@ -40,11 +40,11 @@ Capturas: `drill5_falla.png`, `drill5_recuperado.png`.
 
 | Medición | Valor |
 |----------|-------|
-| Pings perdidos en SRV | ____ |
-| Pings perdidos en PC-USER (debería ser 0) | ____ |
+| Pings perdidos en SRV | 2 |
+| Pings perdidos en PC-USER (debería ser 0) | 0 |
 
 ## Post-mortem
 
 - Ventaja frente a un solo master para todo: con los dos DIST sanos se usa la capacidad de ambos, y una falla afecta solo a la LAN cuyo master cayó.
 - Límite: si cae un DIST, el otro carga con las dos LANs. Hay que dimensionar cada uno para el 100 % del tráfico.
-- Observación: ____
+- Observación: DIST-1 tomó vrrp20 a los 4 s (log 00:15:51 → 00:15:55) y el trace de SRV pasó a 192.168.20.2. Al habilitar ether4, DIST-2 retomó vrrp20 a los 11 s (00:16:18 → 00:16:29) sin pérdidas en ningún host, y los trace volvieron a 192.168.10.2 (PC-USER) y 192.168.20.3 (SRV).

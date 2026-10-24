@@ -1,0 +1,67 @@
+# Drill 2 - recuperado - 2026-10-23 21:50:15
+
+PC-USER> ping 198.51.100.100 -t
+21:49:57.617  84 bytes from 198.51.100.100 icmp_seq=333 ttl=61 time=2.034 ms
+21:49:58.619  84 bytes from 198.51.100.100 icmp_seq=334 ttl=61 time=2.008 ms
+21:49:59.627  84 bytes from 198.51.100.100 icmp_seq=335 ttl=61 time=2.109 ms
+21:50:00.623  84 bytes from 198.51.100.100 icmp_seq=336 ttl=61 time=1.952 ms
+21:50:01.625  84 bytes from 198.51.100.100 icmp_seq=337 ttl=61 time=2.030 ms
+21:50:02.630  84 bytes from 198.51.100.100 icmp_seq=338 ttl=61 time=2.105 ms
+21:50:03.637  84 bytes from 198.51.100.100 icmp_seq=339 ttl=61 time=1.939 ms
+21:50:04.632  84 bytes from 198.51.100.100 icmp_seq=340 ttl=61 time=2.080 ms
+21:50:05.634  84 bytes from 198.51.100.100 icmp_seq=341 ttl=61 time=2.075 ms
+21:50:06.641  84 bytes from 198.51.100.100 icmp_seq=342 ttl=61 time=2.010 ms
+21:50:07.648  84 bytes from 198.51.100.100 icmp_seq=343 ttl=61 time=2.016 ms
+21:50:08.641  84 bytes from 198.51.100.100 icmp_seq=344 ttl=61 time=2.128 ms
+21:50:09.644  84 bytes from 198.51.100.100 icmp_seq=345 ttl=61 time=1.931 ms
+21:50:10.652  84 bytes from 198.51.100.100 icmp_seq=346 ttl=61 time=2.064 ms
+
+Resume del cable (log EDGE 'ether3 link up'): 21:50:00 reloj local
+Recuperado en EDGE: 21:50:11 = +11 s
+Eventos del log relativos al Resume: +0 s  { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } created; +0 s : 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } state change to Point-to-Point; +0 s nterface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Down } state change to Init; +10 s erface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Init } state change to TwoWay; +10 s ace { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: TwoWay } state change to ExStart; +10 s interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: ExStart } negotiation done; +10 s e { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: ExStart } state change to Exchange; +10 s face { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } exchange lsdb size 6; +10 s } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } exchange done; +10 s face { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } state change to Full
+Rachas sin respuesta en PC-USER: []
+
+[admin@EDGE] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether4 address=10.0.0.6 
+      router-id=10.255.0.3 state="Full" state-changes=4 adjacency=54m56s 
+      timeout=34s 
+ 1  D instance=ospf1 area=backbone interface=ether3 address=10.0.0.2 
+      router-id=10.255.0.2 state="Full" state-changes=5 adjacency=4s 
+      timeout=36s 
+
+[admin@CORE-1] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether2 address=10.0.0.10 
+      router-id=10.255.0.3 state="Full" state-changes=6 adjacency=55m 
+      timeout=34s 
+ 1  D instance=ospf1 area=backbone interface=ether4 address=10.0.0.18 
+      router-id=10.255.0.5 state="Full" state-changes=5 adjacency=54m30s 
+      timeout=33s 
+ 2  D instance=ospf1 area=backbone interface=ether3 address=10.0.0.14 
+      router-id=10.255.0.4 state="Full" state-changes=6 adjacency=54m40s 
+      timeout=36s 
+ 3  D instance=ospf1 area=backbone interface=ether1 address=10.0.0.1 
+      router-id=10.255.0.1 state="Full" state-changes=4 adjacency=4s 
+      timeout=36s 
+
+[admin@EDGE] > /ip route print where ospf
+Flags: D - DYNAMIC; A - ACTIVE; o - OSPF; + - ECMP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+     DST-ADDRESS      GATEWAY          ROUTING-TABLE  DISTANCE
+DAo+ 10.0.0.8/30      10.0.0.2%ether3  main                110
+DAo+ 10.0.0.8/30      10.0.0.6%ether4  main                110
+DAo  10.0.0.12/30     10.0.0.2%ether3  main                110
+DAo  10.0.0.16/30     10.0.0.2%ether3  main                110
+DAo  10.0.0.20/30     10.0.0.6%ether4  main                110
+DAo  10.0.0.24/30     10.0.0.6%ether4  main                110
+DAo  10.255.0.2/32    10.0.0.2%ether3  main                110
+DAo  10.255.0.3/32    10.0.0.6%ether4  main                110
+DAo+ 10.255.0.4/32    10.0.0.2%ether3  main                110
+DAo+ 10.255.0.4/32    10.0.0.6%ether4  main                110
+DAo+ 10.255.0.5/32    10.0.0.2%ether3  main                110
+DAo+ 10.255.0.5/32    10.0.0.6%ether4  main                110
+DAo+ 192.168.10.0/24  10.0.0.2%ether3  main                110
+DAo+ 192.168.10.0/24  10.0.0.6%ether4  main                110
+DAo+ 192.168.20.0/24  10.0.0.2%ether3  main                110
+DAo+ 192.168.20.0/24  10.0.0.6%ether4  main                110

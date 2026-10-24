@@ -1,0 +1,44 @@
+# Drill 3 - estado previo - 2026-10-23 21:51:13
+
+[admin@EDGE] > /routing bgp session print
+Flags: E - ESTABLISHED 
+ 0 E name="ISP-1-1" instance=bgp1 
+     remote.address=203.0.113.1 .as=65001 .id=10.255.0.11 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=58 .bytes=1163 .eor="" 
+     local.address=203.0.113.2 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=57 .bytes=1116 .eor="" 
+     output.procid=20 .filter-chain=to-isp 
+     input.procid=20 .filter=from-isp1 ebgp 
+     hold-time=3m keepalive-time=1m uptime=55m27s360ms 
+     last-started=2026-10-23 23:55:44 prefix-count=3 
+ 1 E name="ISP-2-1" instance=bgp1 
+     remote.address=203.0.113.5 .as=65002 .id=10.255.0.12 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=58 .bytes=1163 .eor="" 
+     local.address=203.0.113.6 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=57 .bytes=1116 .eor="" 
+     output.procid=21 .filter-chain=to-isp 
+     input.procid=21 .filter=from-isp2 ebgp 
+     hold-time=3m keepalive-time=1m uptime=55m20s880ms 
+     last-started=2026-10-23 23:55:50 prefix-count=3 
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: D - DYNAMIC; A - ACTIVE; s - STATIC, b - BGP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#     DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+  DAb 0.0.0.0/0    203.0.113.1  main                 20
+  D b 0.0.0.0/0    203.0.113.5  main                 20
+;;; chk-ISP1
+0   s 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1   s 0.0.0.0/0    203.0.113.5  main                 31
+
+PC-USER> trace 198.51.100.100
+trace to 198.51.100.100, 8 hops max, press Ctrl+C to stop
+ 1   192.168.10.2   0.358 ms  0.340 ms  0.292 ms
+ 2   10.0.0.17   0.923 ms  0.705 ms  0.738 ms
+ 3   10.0.0.5   1.337 ms  1.286 ms  1.268 ms
+ 4   *198.51.100.100   1.555 ms (ICMP type:3, code:3, Destination port unreachable)
+
+PC-USER>

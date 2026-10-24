@@ -1,0 +1,68 @@
+# Drill 4 - recuperado - 2026-10-23 22:20:29
+
+PC-USER> ping 198.51.100.100 -t
+22:20:11.784  84 bytes from 198.51.100.100 icmp_seq=29 ttl=61 time=1.983 ms
+22:20:12.786  84 bytes from 198.51.100.100 icmp_seq=30 ttl=61 time=1.854 ms
+22:20:13.794  84 bytes from 198.51.100.100 icmp_seq=31 ttl=61 time=2.262 ms
+22:20:14.802  84 bytes from 198.51.100.100 icmp_seq=32 ttl=61 time=2.108 ms
+22:20:15.795  84 bytes from 198.51.100.100 icmp_seq=33 ttl=61 time=2.007 ms
+22:20:16.797  84 bytes from 198.51.100.100 icmp_seq=34 ttl=61 time=2.093 ms
+22:20:17.805  84 bytes from 198.51.100.100 icmp_seq=35 ttl=61 time=1.804 ms
+22:20:18.802  84 bytes from 198.51.100.100 icmp_seq=36 ttl=61 time=2.153 ms
+22:20:19.804  84 bytes from 198.51.100.100 icmp_seq=37 ttl=61 time=1.928 ms
+22:20:20.808  84 bytes from 198.51.100.100 icmp_seq=38 ttl=61 time=2.041 ms
+22:20:21.816  84 bytes from 198.51.100.100 icmp_seq=39 ttl=61 time=2.014 ms
+22:20:22.811  84 bytes from 198.51.100.100 icmp_seq=40 ttl=61 time=2.113 ms
+22:20:23.815  84 bytes from 198.51.100.100 icmp_seq=41 ttl=61 time=2.084 ms
+22:20:24.823  84 bytes from 198.51.100.100 icmp_seq=42 ttl=61 time=2.084 ms
+
+Resume del cable (log EDGE 'ether1 link up'): 22:20:14 reloj local
+Recuperado en EDGE: 22:20:18 = +4 s
+BGP 2 established tras enable: 22:20:20
+Eventos del log relativos al Resume: +3 s script,info NETWATCH ISP-1 up
+Rachas sin respuesta en PC-USER: []
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: A - ACTIVE; s - STATIC
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#    DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+;;; chk-ISP1
+0 As 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1  s 0.0.0.0/0    203.0.113.5  main                 31
+
+[admin@EDGE] > /routing bgp connection enable ISP-1,ISP-2
+
+[admin@EDGE] > /routing bgp session print
+Flags: E - ESTABLISHED 
+ 0 E name="ISP-1-1" instance=bgp1 
+     remote.address=203.0.113.1 .as=65001 .id=10.255.0.11 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=3 .bytes=118 .eor="" 
+     local.address=203.0.113.2 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=2 .bytes=71 .eor="" 
+     output.procid=20 .filter-chain=to-isp 
+     input.procid=20 .filter=from-isp1 ebgp 
+     hold-time=3m keepalive-time=1m uptime=8s70ms 
+     last-started=2026-10-24 01:20:19 prefix-count=0 
+ 1 E name="ISP-2-1" instance=bgp1 
+     remote.address=203.0.113.5 .as=65002 .id=10.255.0.12 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=3 .bytes=118 .eor="" 
+     local.address=203.0.113.6 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=2 .bytes=71 .eor="" 
+     output.procid=21 .filter-chain=to-isp 
+     input.procid=21 .filter=from-isp2 ebgp 
+     hold-time=3m keepalive-time=1m uptime=8s70ms 
+     last-started=2026-10-24 01:20:19 prefix-count=0 
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: D - DYNAMIC; A - ACTIVE; s - STATIC, b - BGP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#     DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+;;; chk-ISP1
+0   s 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1   s 0.0.0.0/0    203.0.113.5  main                 31
+  DAb 0.0.0.0/0    203.0.113.1  main                 20
+  D b 0.0.0.0/0    203.0.113.5  main                 20

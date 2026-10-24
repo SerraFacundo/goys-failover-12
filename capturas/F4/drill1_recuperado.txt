@@ -1,0 +1,48 @@
+# Drill 1 VRRP - recuperado (DIST-1 /interface enable ether3 a las 00:14:42 reloj router) - 2026-10-23 21:15:06
+
+PC-USER> ping 198.51.100.100 -t  (desde la recuperacion)
+21:14:42.752  84 bytes from 198.51.100.100 icmp_seq=21 ttl=61 time=2.216 ms
+21:14:43.755  84 bytes from 198.51.100.100 icmp_seq=22 ttl=61 time=2.235 ms
+21:14:44.760  84 bytes from 198.51.100.100 icmp_seq=23 ttl=61 time=1.842 ms
+21:14:45.768  84 bytes from 198.51.100.100 icmp_seq=24 ttl=61 time=2.077 ms
+21:14:46.762  84 bytes from 198.51.100.100 icmp_seq=25 ttl=61 time=1.791 ms
+21:14:47.764  84 bytes from 198.51.100.100 icmp_seq=26 ttl=61 time=2.053 ms
+21:14:48.771  84 bytes from 198.51.100.100 icmp_seq=27 ttl=61 time=2.111 ms
+21:14:49.779  84 bytes from 198.51.100.100 icmp_seq=28 ttl=61 time=2.164 ms
+21:14:50.773  84 bytes from 198.51.100.100 icmp_seq=29 ttl=61 time=1.959 ms
+21:14:51.775  84 bytes from 198.51.100.100 icmp_seq=30 ttl=61 time=2.039 ms
+21:14:52.783  84 bytes from 198.51.100.100 icmp_seq=31 ttl=61 time=2.180 ms
+21:14:53.791  84 bytes from 198.51.100.100 icmp_seq=32 ttl=61 time=1.911 ms
+21:14:54.784  84 bytes from 198.51.100.100 icmp_seq=33 ttl=61 time=2.176 ms
+21:14:55.787  84 bytes from 198.51.100.100 icmp_seq=34 ttl=61 time=2.133 ms
+21:14:56.794  84 bytes from 198.51.100.100 icmp_seq=35 ttl=61 time=2.083 ms
+21:14:57.792  84 bytes from 198.51.100.100 icmp_seq=36 ttl=61 time=2.005 ms
+21:14:58.794  84 bytes from 198.51.100.100 icmp_seq=37 ttl=61 time=2.049 ms
+21:14:59.802  84 bytes from 198.51.100.100 icmp_seq=38 ttl=61 time=1.952 ms
+21:15:00.810  84 bytes from 198.51.100.100 icmp_seq=39 ttl=61 time=2.333 ms
+21:15:01.802  84 bytes from 198.51.100.100 icmp_seq=40 ttl=61 time=2.016 ms
+21:15:02.805  84 bytes from 198.51.100.100 icmp_seq=41 ttl=61 time=2.212 ms
+
+Rachas sin respuesta: []
+
+[admin@DIST-1] > /interface vrrp print
+Flags: R - RUNNING; M - MASTER, B - BACKUP
+Columns: NAME, INTERFACE, MAC-ADDRESS, VRID, PRIORITY, INTERVAL, VERSION, 
+         V3-PROTOCOL, SYNC-CONNECTION-TRACKING
+#    NAME    INTERFACE  MAC-ADDRESS        VRID  PRIORITY  IN  V  V3-P  SY
+0 RM vrrp10  ether3     00:00:5E:00:01:0A    10       200  1s  2  ipv4  no
+1  B vrrp20  ether4     00:00:5E:00:01:14    20       100  1s  2  ipv4  no
+
+[admin@DIST-2] > /interface vrrp print
+Flags: R - RUNNING; M - MASTER, B - BACKUP
+Columns: NAME, INTERFACE, MAC-ADDRESS, VRID, PRIORITY, INTERVAL, VERSION, 
+         V3-PROTOCOL, SYNC-CONNECTION-TRACKING
+#    NAME    INTERFACE  MAC-ADDRESS        VRID  PRIORITY  IN  V  V3-P  SY
+0  B vrrp10  ether3     00:00:5E:00:01:0A    10       100  1s  2  ipv4  no
+1 RM vrrp20  ether4     00:00:5E:00:01:14    20       200  1s  2  ipv4  no
+
+[admin@DIST-2] > /log print where message~"NETWATCH"
+ 2026-10-24 00:00:04 system,info Netwatch config added by console:admin+ct@ttyS0 (*1 = /tool netwatch add comment=PAR-DIST down-script=":log warning \"NETWATCH PAR-DIST down\"" host=192.168.10.2 interval=5s type=icmp up-script=":log info \"NETWATCH PAR-DIST up\"")
+ 2026-10-24 00:00:07 script,info NETWATCH PAR-DIST up
+ 2026-10-24 00:14:30 script,warning NETWATCH PAR-DIST down
+ 2026-10-24 00:14:44 script,info NETWATCH PAR-DIST up

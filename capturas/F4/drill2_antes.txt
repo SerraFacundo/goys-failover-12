@@ -1,0 +1,46 @@
+# Drill 2 - estado previo - 2026-10-23 21:19:59
+
+[admin@EDGE] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether4 address=10.0.0.6 
+      router-id=10.255.0.3 state="Full" state-changes=4 adjacency=24m40s 
+      timeout=30s 
+ 1  D instance=ospf1 area=backbone interface=ether3 address=10.0.0.2 
+      router-id=10.255.0.2 state="Full" state-changes=5 adjacency=24m44s 
+      timeout=36s 
+
+[admin@CORE-1] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether2 address=10.0.0.10 
+      router-id=10.255.0.3 state="Full" state-changes=6 adjacency=24m44s 
+      timeout=30s 
+ 1  D instance=ospf1 area=backbone interface=ether4 address=10.0.0.18 
+      router-id=10.255.0.5 state="Full" state-changes=5 adjacency=24m14s 
+      timeout=39s 
+ 2  D instance=ospf1 area=backbone interface=ether3 address=10.0.0.14 
+      router-id=10.255.0.4 state="Full" state-changes=6 adjacency=24m24s 
+      timeout=32s 
+ 3  D instance=ospf1 area=backbone interface=ether1 address=10.0.0.1 
+      router-id=10.255.0.1 state="Full" state-changes=6 adjacency=24m44s 
+      timeout=35s 
+
+[admin@EDGE] > /ip route print where ospf
+Flags: D - DYNAMIC; A - ACTIVE; o - OSPF; + - ECMP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+     DST-ADDRESS      GATEWAY          ROUTING-TABLE  DISTANCE
+DAo+ 10.0.0.8/30      10.0.0.6%ether4  main                110
+DAo+ 10.0.0.8/30      10.0.0.2%ether3  main                110
+DAo  10.0.0.12/30     10.0.0.2%ether3  main                110
+DAo  10.0.0.16/30     10.0.0.2%ether3  main                110
+DAo  10.0.0.20/30     10.0.0.6%ether4  main                110
+DAo  10.0.0.24/30     10.0.0.6%ether4  main                110
+DAo  10.255.0.2/32    10.0.0.2%ether3  main                110
+DAo  10.255.0.3/32    10.0.0.6%ether4  main                110
+DAo+ 10.255.0.4/32    10.0.0.6%ether4  main                110
+DAo+ 10.255.0.4/32    10.0.0.2%ether3  main                110
+DAo+ 10.255.0.5/32    10.0.0.6%ether4  main                110
+DAo+ 10.255.0.5/32    10.0.0.2%ether3  main                110
+DAo+ 192.168.10.0/24  10.0.0.6%ether4  main                110
+DAo+ 192.168.10.0/24  10.0.0.2%ether3  main                110
+DAo+ 192.168.20.0/24  10.0.0.6%ether4  main                110
+DAo+ 192.168.20.0/24  10.0.0.2%ether3  main                110

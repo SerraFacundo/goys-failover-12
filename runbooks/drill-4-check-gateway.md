@@ -5,7 +5,7 @@
 | Mecanismo | Rutas default estáticas con `check-gateway=ping`, distancia 30 (ISP-1) y 31 (ISP-2) |
 | Ejecuta | R5 (hosts) + R2 en EDGE + R1 en ISP (rotación F4) |
 | Falla inyectada | Sin BGP, se corta el enlace EDGE ↔ ISP-1 |
-| Fecha / hora | ____ |
+| Fecha / hora | 2026-10-23 22:15 (hora local; los routers marcan 2026-10-24 01:15). Suspend a las 22:19:15 |
 
 Prerrequisito: bloque F4 de floating static aplicado en EDGE y rutas de vuelta en ISP-1 e ISP-2 (`docs/plantillas/F4.rsc`).
 
@@ -41,13 +41,13 @@ Capturas: `drill4_falla.png`, `drill4_recuperado.png`.
 
 | Medición | Valor |
 |----------|-------|
-| Pings perdidos | ____ |
-| Tiempo de corte | ____ s |
+| Pings perdidos | 1 |
+| Tiempo de corte | 1 s |
 
 Valor de referencia: check-gateway hace ping cada 10 s y marca el gateway caído tras dos fallas seguidas, o sea entre 10 y 20 s.
 
 ## Post-mortem
 
-- Diferencia con el drill 3: acá no hay protocolo de routing, el router solo verifica que el próximo salto responda. Detecta el corte del enlace, pero no un problema más adelante en la red del ISP. ____
-- ¿Fue más rápido o más lento que BGP con timers por defecto? ____
+- Diferencia con el drill 3: acá no hay protocolo de routing, el router solo verifica que el próximo salto responda. Detecta el corte del enlace, pero no un problema más adelante en la red del ISP. Observado: chk-ISP1 quedó inactiva y se activó chk-ISP2 a los ~2 s del link down (sondeo). Como el Suspend baja el carrier, la ruta cayó por interfaz caída antes de que check-gateway fallara sus pings, así que la detección propia de check-gateway (referencia 10–20 s) no se midió.
+- ¿Fue más rápido o más lento que BGP con timers por defecto? Corte del host igual: 1 s en los dos drills. La sesión BGP tardó 170 s en caer (drill 3) contra ~2 s del cambio de ruta acá, pero en los dos casos lo que movió el tráfico fue el link down.
 - Por qué quedan como respaldo detrás de BGP (distancia 30/31): si BGP funciona, manda BGP; si se caen las dos sesiones, la salida no depende de que BGP vuelva.

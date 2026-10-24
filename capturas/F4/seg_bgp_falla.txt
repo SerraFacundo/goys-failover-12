@@ -1,0 +1,106 @@
+# Seguridad BGP TCP-MD5 - ISP-2 con clave incorrecta - 2026-10-23 22:23:33
+
+[admin@ISP-2] > /routing bgp connection set EDGE tcp-md5-key="CLAVEMAL"   (22:22:29 reloj local)
+Sesion ISP-2 deja de estar established a los 1 s; a los 63 s sigue: no established
+
+[admin@EDGE] > /routing bgp session print
+Flags: E - ESTABLISHED 
+ 0 E name="ISP-1-1" instance=bgp1 
+     remote.address=203.0.113.1 .as=65001 .id=10.255.0.11 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=6 .bytes=175 .eor="" 
+     local.address=203.0.113.2 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=5 .bytes=128 .eor="" 
+     output.procid=20 .filter-chain=to-isp 
+     input.procid=20 .filter=from-isp1 ebgp 
+     hold-time=3m keepalive-time=1m uptime=3m13s70ms 
+     last-started=2026-10-24 01:20:19 prefix-count=3 
+ 1   name="ISP-2-1" instance=bgp1 
+     remote.address=203.0.113.5 .as=65002 .id=10.255.0.12 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     local.address=203.0.113.6 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     output.filter-chain=to-isp 
+     input.filter=from-isp2 ebgp 
+     keepalive-time=1m last-started=2026-10-24 01:20:19 
+     last-stopped=2026-10-24 01:22:30 prefix-count=0 
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: D - DYNAMIC; A - ACTIVE; s - STATIC, b - BGP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#     DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+;;; chk-ISP1
+0   s 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1   s 0.0.0.0/0    203.0.113.5  main                 31
+  DAb 0.0.0.0/0    203.0.113.1  main                 20
+
+[admin@EDGE] > /log print where topics~"bgp"   (desde el cambio de clave)
++1 s route,bgp,info ISP-2-1 {l_addr: 203.0.113.6, r_addr: 203.0.113.5} Connection closed
++1 s route,bgp,info ISP-2-1 {l_addr: 203.0.113.6, r_addr: 203.0.113.5} Idle
+
+PC-USER> ping 198.51.100.100 -t  (durante la prueba)
+22:22:29.972  84 bytes from 198.51.100.100 icmp_seq=4 ttl=61 time=2.072 ms
+22:22:30.980  84 bytes from 198.51.100.100 icmp_seq=5 ttl=61 time=2.120 ms
+22:22:31.974  84 bytes from 198.51.100.100 icmp_seq=6 ttl=61 time=2.014 ms
+22:22:32.976  84 bytes from 198.51.100.100 icmp_seq=7 ttl=61 time=2.024 ms
+22:22:33.983  84 bytes from 198.51.100.100 icmp_seq=8 ttl=61 time=2.090 ms
+22:22:34.981  84 bytes from 198.51.100.100 icmp_seq=9 ttl=61 time=2.061 ms
+22:22:35.983  84 bytes from 198.51.100.100 icmp_seq=10 ttl=61 time=2.036 ms
+22:22:36.987  84 bytes from 198.51.100.100 icmp_seq=11 ttl=61 time=2.046 ms
+22:22:37.994  84 bytes from 198.51.100.100 icmp_seq=12 ttl=61 time=2.122 ms
+22:22:38.991  84 bytes from 198.51.100.100 icmp_seq=13 ttl=61 time=2.178 ms
+22:22:39.993  84 bytes from 198.51.100.100 icmp_seq=14 ttl=61 time=2.131 ms
+22:22:40.998  84 bytes from 198.51.100.100 icmp_seq=15 ttl=61 time=2.078 ms
+22:22:42.006  84 bytes from 198.51.100.100 icmp_seq=16 ttl=61 time=2.156 ms
+22:22:43.002  84 bytes from 198.51.100.100 icmp_seq=17 ttl=61 time=2.175 ms
+22:22:44.005  84 bytes from 198.51.100.100 icmp_seq=18 ttl=61 time=2.233 ms
+22:22:45.010  84 bytes from 198.51.100.100 icmp_seq=19 ttl=61 time=1.865 ms
+22:22:46.017  84 bytes from 198.51.100.100 icmp_seq=20 ttl=61 time=2.058 ms
+22:22:47.013  84 bytes from 198.51.100.100 icmp_seq=21 ttl=61 time=2.155 ms
+22:22:48.015  84 bytes from 198.51.100.100 icmp_seq=22 ttl=61 time=2.012 ms
+22:22:49.021  84 bytes from 198.51.100.100 icmp_seq=23 ttl=61 time=2.140 ms
+22:22:50.028  84 bytes from 198.51.100.100 icmp_seq=24 ttl=61 time=1.944 ms
+22:22:51.023  84 bytes from 198.51.100.100 icmp_seq=25 ttl=61 time=2.101 ms
+22:22:52.026  84 bytes from 198.51.100.100 icmp_seq=26 ttl=61 time=2.141 ms
+22:22:53.031  84 bytes from 198.51.100.100 icmp_seq=27 ttl=61 time=2.016 ms
+22:22:54.039  84 bytes from 198.51.100.100 icmp_seq=28 ttl=61 time=2.069 ms
+22:22:55.032  84 bytes from 198.51.100.100 icmp_seq=29 ttl=61 time=2.108 ms
+22:22:56.036  84 bytes from 198.51.100.100 icmp_seq=30 ttl=61 time=2.168 ms
+22:22:57.042  84 bytes from 198.51.100.100 icmp_seq=31 ttl=61 time=2.072 ms
+22:22:58.050  84 bytes from 198.51.100.100 icmp_seq=32 ttl=61 time=1.943 ms
+22:22:59.043  84 bytes from 198.51.100.100 icmp_seq=33 ttl=61 time=2.180 ms
+22:23:00.046  84 bytes from 198.51.100.100 icmp_seq=34 ttl=61 time=2.004 ms
+22:23:01.053  84 bytes from 198.51.100.100 icmp_seq=35 ttl=61 time=2.257 ms
+22:23:02.061  84 bytes from 198.51.100.100 icmp_seq=36 ttl=61 time=2.178 ms
+22:23:03.054  84 bytes from 198.51.100.100 icmp_seq=37 ttl=61 time=1.985 ms
+22:23:04.058  84 bytes from 198.51.100.100 icmp_seq=38 ttl=61 time=2.152 ms
+22:23:05.065  84 bytes from 198.51.100.100 icmp_seq=39 ttl=61 time=2.048 ms
+22:23:06.062  84 bytes from 198.51.100.100 icmp_seq=40 ttl=61 time=2.098 ms
+22:23:07.064  84 bytes from 198.51.100.100 icmp_seq=41 ttl=61 time=2.080 ms
+22:23:08.068  84 bytes from 198.51.100.100 icmp_seq=42 ttl=61 time=2.184 ms
+22:23:09.076  84 bytes from 198.51.100.100 icmp_seq=43 ttl=61 time=2.025 ms
+22:23:10.072  84 bytes from 198.51.100.100 icmp_seq=44 ttl=61 time=2.112 ms
+22:23:11.074  84 bytes from 198.51.100.100 icmp_seq=45 ttl=61 time=1.987 ms
+22:23:12.080  84 bytes from 198.51.100.100 icmp_seq=46 ttl=61 time=2.058 ms
+22:23:13.088  84 bytes from 198.51.100.100 icmp_seq=47 ttl=61 time=2.122 ms
+22:23:14.082  84 bytes from 198.51.100.100 icmp_seq=48 ttl=61 time=2.155 ms
+22:23:15.084  84 bytes from 198.51.100.100 icmp_seq=49 ttl=61 time=2.083 ms
+22:23:16.091  84 bytes from 198.51.100.100 icmp_seq=50 ttl=61 time=2.068 ms
+22:23:17.099  84 bytes from 198.51.100.100 icmp_seq=51 ttl=61 time=2.237 ms
+22:23:18.092  84 bytes from 198.51.100.100 icmp_seq=52 ttl=61 time=2.128 ms
+22:23:19.094  84 bytes from 198.51.100.100 icmp_seq=53 ttl=61 time=2.020 ms
+22:23:20.102  84 bytes from 198.51.100.100 icmp_seq=54 ttl=61 time=2.111 ms
+22:23:21.099  84 bytes from 198.51.100.100 icmp_seq=55 ttl=61 time=2.025 ms
+22:23:22.101  84 bytes from 198.51.100.100 icmp_seq=56 ttl=61 time=2.055 ms
+22:23:23.105  84 bytes from 198.51.100.100 icmp_seq=57 ttl=61 time=1.881 ms
+22:23:24.113  84 bytes from 198.51.100.100 icmp_seq=58 ttl=61 time=2.068 ms
+22:23:25.107  84 bytes from 198.51.100.100 icmp_seq=59 ttl=61 time=2.088 ms
+22:23:26.110  84 bytes from 198.51.100.100 icmp_seq=60 ttl=61 time=2.082 ms
+22:23:27.116  84 bytes from 198.51.100.100 icmp_seq=61 ttl=61 time=2.062 ms
+22:23:28.124  84 bytes from 198.51.100.100 icmp_seq=62 ttl=61 time=2.110 ms
+22:23:29.116  84 bytes from 198.51.100.100 icmp_seq=63 ttl=61 time=2.032 ms
+22:23:30.120  84 bytes from 198.51.100.100 icmp_seq=64 ttl=61 time=2.137 ms
+22:23:31.127  84 bytes from 198.51.100.100 icmp_seq=65 ttl=61 time=1.978 ms
+22:23:32.124  84 bytes from 198.51.100.100 icmp_seq=66 ttl=61 time=2.057 ms
+Rachas sin respuesta en PC-USER: []

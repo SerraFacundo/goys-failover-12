@@ -1,0 +1,68 @@
+# Drill 5 load-sharing - falla (DIST-2 /interface disable ether4 a las 00:15:51 reloj router) - 2026-10-23 21:16:13
+
+SRV> ping 198.51.100.100 -t  (desde la inyeccion)
+21:15:51.466  84 bytes from 198.51.100.100 icmp_seq=7 ttl=61 time=2.151 ms
+21:15:53.466  198.51.100.100 icmp_seq=8 timeout
+21:15:55.476  198.51.100.100 icmp_seq=9 timeout
+21:15:56.469  84 bytes from 198.51.100.100 icmp_seq=10 ttl=61 time=1.928 ms
+21:15:57.472  84 bytes from 198.51.100.100 icmp_seq=11 ttl=61 time=1.819 ms
+21:15:58.479  84 bytes from 198.51.100.100 icmp_seq=12 ttl=61 time=1.675 ms
+21:15:59.476  84 bytes from 198.51.100.100 icmp_seq=13 ttl=61 time=1.896 ms
+21:16:00.478  84 bytes from 198.51.100.100 icmp_seq=14 ttl=61 time=1.878 ms
+21:16:01.482  84 bytes from 198.51.100.100 icmp_seq=15 ttl=61 time=1.727 ms
+21:16:02.490  84 bytes from 198.51.100.100 icmp_seq=16 ttl=61 time=2.042 ms
+21:16:03.485  84 bytes from 198.51.100.100 icmp_seq=17 ttl=61 time=1.828 ms
+21:16:04.487  84 bytes from 198.51.100.100 icmp_seq=18 ttl=61 time=1.782 ms
+21:16:05.494  84 bytes from 198.51.100.100 icmp_seq=19 ttl=61 time=2.086 ms
+21:16:06.501  84 bytes from 198.51.100.100 icmp_seq=20 ttl=61 time=1.891 ms
+21:16:07.494  84 bytes from 198.51.100.100 icmp_seq=21 ttl=61 time=1.881 ms
+21:16:08.497  84 bytes from 198.51.100.100 icmp_seq=22 ttl=61 time=1.770 ms
+Rachas sin respuesta SRV: [(2, ['198.51.100.100 icmp_seq=8 timeout', '198.51.100.100 icmp_seq=9 timeout'])]
+
+PC-USER> ping 198.51.100.100 -t  (mismo intervalo)
+21:15:51.068  84 bytes from 198.51.100.100 icmp_seq=6 ttl=61 time=1.917 ms
+21:15:52.070  84 bytes from 198.51.100.100 icmp_seq=7 ttl=61 time=1.906 ms
+21:15:53.077  84 bytes from 198.51.100.100 icmp_seq=8 ttl=61 time=2.317 ms
+21:15:54.085  84 bytes from 198.51.100.100 icmp_seq=9 ttl=61 time=2.070 ms
+21:15:55.078  84 bytes from 198.51.100.100 icmp_seq=10 ttl=61 time=2.035 ms
+21:15:56.081  84 bytes from 198.51.100.100 icmp_seq=11 ttl=61 time=2.145 ms
+21:15:57.088  84 bytes from 198.51.100.100 icmp_seq=12 ttl=61 time=1.996 ms
+21:15:58.085  84 bytes from 198.51.100.100 icmp_seq=13 ttl=61 time=1.982 ms
+21:15:59.089  84 bytes from 198.51.100.100 icmp_seq=14 ttl=61 time=2.238 ms
+21:16:00.092  84 bytes from 198.51.100.100 icmp_seq=15 ttl=61 time=1.998 ms
+21:16:01.100  84 bytes from 198.51.100.100 icmp_seq=16 ttl=61 time=2.044 ms
+21:16:02.095  84 bytes from 198.51.100.100 icmp_seq=17 ttl=61 time=2.079 ms
+21:16:03.097  84 bytes from 198.51.100.100 icmp_seq=18 ttl=61 time=2.056 ms
+21:16:04.103  84 bytes from 198.51.100.100 icmp_seq=19 ttl=61 time=2.042 ms
+21:16:05.111  84 bytes from 198.51.100.100 icmp_seq=20 ttl=61 time=2.147 ms
+21:16:06.105  84 bytes from 198.51.100.100 icmp_seq=21 ttl=61 time=1.972 ms
+21:16:07.107  84 bytes from 198.51.100.100 icmp_seq=22 ttl=61 time=2.073 ms
+21:16:08.114  84 bytes from 198.51.100.100 icmp_seq=23 ttl=61 time=2.207 ms
+Rachas sin respuesta PC-USER: []
+
+[admin@DIST-1] > /interface vrrp print
+Flags: R - RUNNING; M - MASTER
+Columns: NAME, INTERFACE, MAC-ADDRESS, VRID, PRIORITY, INTERVAL, VERSION, 
+         V3-PROTOCOL, SYNC-CONNECTION-TRACKING
+#    NAME    INTERFACE  MAC-ADDRESS        VRID  PRIORITY  IN  V  V3-P  SY
+0 RM vrrp10  ether3     00:00:5E:00:01:0A    10       200  1s  2  ipv4  no
+1 RM vrrp20  ether4     00:00:5E:00:01:14    20       100  1s  2  ipv4  no
+
+[admin@DIST-1] > /log print where topics~"vrrp"
+ 2026-10-23 23:55:27 vrrp,info vrrp10 now BACKUP
+ 2026-10-23 23:55:28 vrrp,info vrrp20 now BACKUP
+ 2026-10-23 23:55:35 vrrp,info vrrp10 now MASTER, master down timer
+ 2026-10-23 23:55:36 vrrp,info vrrp20 now MASTER, master down timer
+ 2026-10-23 23:55:43 vrrp,info vrrp20 now BACKUP, got higher priority 200 from 192.168.20.3
+ 2026-10-24 00:14:43 vrrp,info vrrp10 now BACKUP
+ 2026-10-24 00:14:53 vrrp,info vrrp10 now MASTER, master down timer
+ 2026-10-24 00:15:55 vrrp,info vrrp20 now MASTER, master down timer
+
+SRV> trace 198.51.100.100
+trace to 198.51.100.100, 8 hops max, press Ctrl+C to stop
+ 1   192.168.20.2   0.517 ms  0.290 ms  0.286 ms
+ 2   10.0.0.13   0.798 ms  0.660 ms  0.611 ms
+ 3   10.0.0.1   1.075 ms  0.935 ms  0.937 ms
+ 4   *198.51.100.100   1.501 ms (ICMP type:3, code:3, Destination port unreachable)
+
+SRV>

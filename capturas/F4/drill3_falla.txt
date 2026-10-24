@@ -1,0 +1,123 @@
+# Drill 3 - falla - 2026-10-23 21:52:11
+
+PC-USER> ping 198.51.100.100 -t
+21:51:51.381  84 bytes from 198.51.100.100 icmp_seq=38 ttl=61 time=2.008 ms
+21:51:52.376  84 bytes from 198.51.100.100 icmp_seq=39 ttl=61 time=2.077 ms
+21:51:53.378  84 bytes from 198.51.100.100 icmp_seq=40 ttl=61 time=2.104 ms
+21:51:55.379  198.51.100.100 icmp_seq=41 timeout
+21:51:56.382  84 bytes from 198.51.100.100 icmp_seq=42 ttl=61 time=2.074 ms
+21:51:57.390  84 bytes from 198.51.100.100 icmp_seq=43 ttl=61 time=2.162 ms
+21:51:58.387  84 bytes from 198.51.100.100 icmp_seq=44 ttl=61 time=2.002 ms
+21:51:59.389  84 bytes from 198.51.100.100 icmp_seq=45 ttl=61 time=2.097 ms
+21:52:00.393  84 bytes from 198.51.100.100 icmp_seq=46 ttl=61 time=1.965 ms
+21:52:01.401  84 bytes from 198.51.100.100 icmp_seq=47 ttl=61 time=2.025 ms
+21:52:02.396  84 bytes from 198.51.100.100 icmp_seq=48 ttl=61 time=1.895 ms
+21:52:03.398  84 bytes from 198.51.100.100 icmp_seq=49 ttl=61 time=2.010 ms
+21:52:04.404  84 bytes from 198.51.100.100 icmp_seq=50 ttl=61 time=2.055 ms
+21:52:05.412  84 bytes from 198.51.100.100 icmp_seq=51 ttl=61 time=2.129 ms
+
+Suspend del cable (log EDGE 'ether1 link down'): 21:51:54 reloj local (reloj routers = local + 10800 s)
+Deteccion en EDGE (sondeo cada ~1 s): 21:51:56 = +3 s
+Eventos del log relativos al Suspend: +3 s script,warning NETWATCH ISP-1 down
+Rachas sin respuesta en PC-USER: [1]
+
+[admin@EDGE] > /routing bgp session print
+Flags: E - ESTABLISHED 
+ 0 E name="ISP-1-1" instance=bgp1 
+     remote.address=203.0.113.1 .as=65001 .id=10.255.0.11 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=59 .bytes=1182 .eor="" 
+     local.address=203.0.113.2 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=58 .bytes=1135 .eor="" 
+     output.procid=20 .filter-chain=to-isp 
+     input.procid=20 .filter=from-isp1 ebgp 
+     hold-time=3m keepalive-time=1m uptime=56m24s360ms 
+     last-started=2026-10-23 23:55:44 prefix-count=3 
+ 1 E name="ISP-2-1" instance=bgp1 
+     remote.address=203.0.113.5 .as=65002 .id=10.255.0.12 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=59 .bytes=1182 .eor="" 
+     local.address=203.0.113.6 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=58 .bytes=1135 .eor="" 
+     output.procid=21 .filter-chain=to-isp 
+     input.procid=21 .filter=from-isp2 ebgp 
+     hold-time=3m keepalive-time=1m uptime=56m17s880ms 
+     last-started=2026-10-23 23:55:50 prefix-count=3 
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: D - DYNAMIC; I - INACTIVE, A - ACTIVE; s - STATIC, b - BGP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#     DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+  DIb 0.0.0.0/0    203.0.113.1  main                 20
+  DAb 0.0.0.0/0    203.0.113.5  main                 20
+;;; chk-ISP1
+0  Is 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1   s 0.0.0.0/0    203.0.113.5  main                 31
+
+[admin@EDGE] > /log print where message~"NETWATCH"
+ 2026-10-23 23:59:51 system,info Netwatch config added by console:admin+ct@ttyS0 (*1 = /tool netwatch add comment=ISP-1 down-script=":log warning \"NETWATCH ISP-1 down\"" host=203.0.113.1 interval=5s type=icmp up-script=":log info \"NETWATCH ISP-1 up\"")
+ 2026-10-23 23:59:51 system,info Netwatch config added by console:admin+ct@ttyS0 (*2 = /tool netwatch add comment=ISP-2 down-script=":log warning \"NETWATCH ISP-2 down\"" host=203.0.113.5 interval=5s type=icmp up-script=":log info \"NETWATCH ISP-2 up\"")
+ 2026-10-23 23:59:52 system,info Netwatch config added by console:admin+ct@ttyS0 (*3 = /tool netwatch add comment=CORE-1 down-script=":log warning \"NETWATCH CORE-1 down\"" host=10.0.0.2 interval=5s type=icmp up-script=":log info \"NETWATCH CORE-1 up\"")
+ 2026-10-23 23:59:53 system,info Netwatch config added by console:admin+ct@ttyS0 (*4 = /tool netwatch add comment=CORE-2 down-script=":log warning \"NETWATCH CORE-2 down\"" host=10.0.0.6 interval=5s type=icmp up-script=":log info \"NETWATCH CORE-2 up\"")
+ 2026-10-23 23:59:54 script,info NETWATCH ISP-1 up
+ 2026-10-23 23:59:55 script,info NETWATCH ISP-2 up
+ 2026-10-23 23:59:56 script,info NETWATCH CORE-1 up
+ 2026-10-23 23:59:56 script,info NETWATCH CORE-2 up
+ 2026-10-24 00:40:47 script,warning NETWATCH CORE-1 down
+ 2026-10-24 00:50:01 script,info NETWATCH CORE-1 up
+ 2026-10-24 00:51:57 script,warning NETWATCH ISP-1 down
+
+[admin@EDGE] > /log print where topics~"bgp"
+ 2026-10-23 23:55:44 route,bgp,info connection 203.0.113.2:179 from 203.0.113.1:46421
+ 2026-10-23 23:55:44 route,bgp,info ISP-1-1 {l_addr: 203.0.113.2, r_addr: 203.0.113.1} Established
+ 2026-10-23 23:55:46 route,bgp,info connection 203.0.113.2:179 from 203.0.113.1:179
+ 2026-10-23 23:55:50 route,bgp,info connection 203.0.113.6:179 from 203.0.113.5:37291
+ 2026-10-23 23:55:50 route,bgp,info ISP-2-1 {l_addr: 203.0.113.6, r_addr: 203.0.113.5} Established
+ 2026-10-23 23:55:59 route,bgp,info connection 203.0.113.6:179 from 203.0.113.5:179
+
+# --- Caida de la sesion BGP ISP-1 (sondeo cada ~1 s: 21:54:46 = +172 s del Suspend)
+Eventos bgp del log relativos al Suspend: +170 s route,bgp,error HoldTimer expired ISP-1-1 {l_addr: 203.0.113.2, r_addr: 203.0.113.1}; +170 s route,bgp,info ISP-1-1 {l_addr: 203.0.113.2, r_addr: 203.0.113.1} Idle
+
+[admin@EDGE] > /routing bgp session print
+Flags: E - ESTABLISHED 
+ 0   name="ISP-1-1" instance=bgp1 
+     remote.address=203.0.113.1 .as=65001 .id=10.255.0.11 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     local.address=203.0.113.2 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     output.filter-chain=to-isp 
+     .last-notification=FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0015030400 
+     input.filter=from-isp1 ebgp 
+     keepalive-time=1m last-started=2026-10-23 23:55:44 
+     last-stopped=2026-10-24 00:54:44 prefix-count=0 
+ 1 E name="ISP-2-1" instance=bgp1 
+     remote.address=203.0.113.5 .as=65002 .id=10.255.0.12 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=61 .bytes=1220 .eor="" 
+     local.address=203.0.113.6 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=60 .bytes=1173 .eor="" 
+     output.procid=21 .filter-chain=to-isp 
+     input.procid=21 .filter=from-isp2 ebgp 
+     hold-time=3m keepalive-time=1m uptime=58m57s880ms 
+     last-started=2026-10-23 23:55:50 prefix-count=3 
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: D - DYNAMIC; I - INACTIVE, A - ACTIVE; s - STATIC, b - BGP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#     DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+  DAb 0.0.0.0/0    203.0.113.5  main                 20
+;;; chk-ISP1
+0  Is 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1   s 0.0.0.0/0    203.0.113.5  main                 31
+
+[admin@EDGE] > /log print where topics~"bgp"
+ 2026-10-23 23:55:44 route,bgp,info connection 203.0.113.2:179 from 203.0.113.1:46421
+ 2026-10-23 23:55:44 route,bgp,info ISP-1-1 {l_addr: 203.0.113.2, r_addr: 203.0.113.1} Established
+ 2026-10-23 23:55:46 route,bgp,info connection 203.0.113.2:179 from 203.0.113.1:179
+ 2026-10-23 23:55:50 route,bgp,info connection 203.0.113.6:179 from 203.0.113.5:37291
+ 2026-10-23 23:55:50 route,bgp,info ISP-2-1 {l_addr: 203.0.113.6, r_addr: 203.0.113.5} Established
+ 2026-10-23 23:55:59 route,bgp,info connection 203.0.113.6:179 from 203.0.113.5:179
+ 2026-10-24 00:54:44 route,bgp,error HoldTimer expired ISP-1-1 {l_addr: 203.0.113.2, r_addr: 203.0.113.1}
+ 2026-10-24 00:54:44 route,bgp,info ISP-1-1 {l_addr: 203.0.113.2, r_addr: 203.0.113.1} Idle

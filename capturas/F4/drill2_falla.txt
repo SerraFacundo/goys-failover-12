@@ -1,0 +1,97 @@
+# Drill 2 - falla - 2026-10-23 21:41:09
+
+PC-USER> ping 198.51.100.100 -t
+21:40:44.139  84 bytes from 198.51.100.100 icmp_seq=1242 ttl=61 time=2.054 ms
+21:40:45.136  84 bytes from 198.51.100.100 icmp_seq=1243 ttl=61 time=2.126 ms
+21:40:47.142  198.51.100.100 icmp_seq=1244 timeout
+21:40:48.139  84 bytes from 198.51.100.100 icmp_seq=1245 ttl=61 time=2.060 ms
+21:40:49.141  84 bytes from 198.51.100.100 icmp_seq=1246 ttl=61 time=1.952 ms
+21:40:50.145  84 bytes from 198.51.100.100 icmp_seq=1247 ttl=61 time=2.115 ms
+21:40:51.153  84 bytes from 198.51.100.100 icmp_seq=1248 ttl=61 time=1.971 ms
+21:40:52.148  84 bytes from 198.51.100.100 icmp_seq=1249 ttl=61 time=2.089 ms
+21:40:53.151  84 bytes from 198.51.100.100 icmp_seq=1250 ttl=61 time=2.139 ms
+21:40:54.156  84 bytes from 198.51.100.100 icmp_seq=1251 ttl=61 time=2.005 ms
+21:40:55.164  84 bytes from 198.51.100.100 icmp_seq=1252 ttl=61 time=2.068 ms
+21:40:56.158  84 bytes from 198.51.100.100 icmp_seq=1253 ttl=61 time=1.897 ms
+21:40:57.161  84 bytes from 198.51.100.100 icmp_seq=1254 ttl=61 time=2.165 ms
+
+CORE-1> /ping 10.0.0.1 interval=1s
+21:40:45.000  1243 10.0.0.1 56 64 639us
+21:40:47.001  1244 10.0.0.1 timeout
+21:40:48.009  1245 10.0.0.1 timeout
+21:40:49.011  1246 10.0.0.1 timeout
+21:40:50.006  1247 10.0.0.1 timeout
+21:40:51.007  1248 10.0.0.1 timeout
+21:40:52.008  1249 10.0.0.1 timeout
+21:40:53.010  1250 10.0.0.1 timeout
+21:40:53.012  1251 10.0.0.1 56 63 2ms819us
+21:40:54.013  1252 10.0.0.1 56 63 1ms123us
+21:40:55.015  1253 10.0.0.1 56 63 1ms320us
+21:40:56.017  1254 10.0.0.1 56 63 1ms93us
+21:40:57.021  1255 10.0.0.1 56 63 976us
+
+Suspend del cable (primer timeout de CORE-1 -> 10.0.0.1): 21:40:47 reloj local (reloj routers = local + 10800 s)
+Deteccion en EDGE (sondeo cada ~1 s): 21:40:48 = +2 s
+Eventos del log relativos al Suspend: +0 s script,warning NETWATCH CORE-1 down
+Rachas sin respuesta en PC-USER: [1]
+
+[admin@EDGE] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether4 address=10.0.0.6 
+      router-id=10.255.0.3 state="Full" state-changes=4 adjacency=45m49s 
+      timeout=31s 
+
+[admin@EDGE] > /ip route print where ospf
+Flags: D - DYNAMIC; A - ACTIVE; o - OSPF
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+    DST-ADDRESS      GATEWAY          ROUTING-TABLE  DISTANCE
+DAo 10.0.0.8/30      10.0.0.6%ether4  main                110
+DAo 10.0.0.12/30     10.0.0.6%ether4  main                110
+DAo 10.0.0.16/30     10.0.0.6%ether4  main                110
+DAo 10.0.0.20/30     10.0.0.6%ether4  main                110
+DAo 10.0.0.24/30     10.0.0.6%ether4  main                110
+DAo 10.255.0.2/32    10.0.0.6%ether4  main                110
+DAo 10.255.0.3/32    10.0.0.6%ether4  main                110
+DAo 10.255.0.4/32    10.0.0.6%ether4  main                110
+DAo 10.255.0.5/32    10.0.0.6%ether4  main                110
+DAo 192.168.10.0/24  10.0.0.6%ether4  main                110
+DAo 192.168.20.0/24  10.0.0.6%ether4  main                110
+
+[admin@EDGE] > /log print where message~"NETWATCH"
+ 2026-10-23 23:59:51 system,info Netwatch config added by console:admin+ct@ttyS0 (*1 = /tool netwatch add comment=ISP-1 down-script=":log warning \"NETWATCH ISP-1 down\"" host=203.0.113.1 interval=5s type=icmp up-script=":log info \"NETWATCH ISP-1 up\"")
+ 2026-10-23 23:59:51 system,info Netwatch config added by console:admin+ct@ttyS0 (*2 = /tool netwatch add comment=ISP-2 down-script=":log warning \"NETWATCH ISP-2 down\"" host=203.0.113.5 interval=5s type=icmp up-script=":log info \"NETWATCH ISP-2 up\"")
+ 2026-10-23 23:59:52 system,info Netwatch config added by console:admin+ct@ttyS0 (*3 = /tool netwatch add comment=CORE-1 down-script=":log warning \"NETWATCH CORE-1 down\"" host=10.0.0.2 interval=5s type=icmp up-script=":log info \"NETWATCH CORE-1 up\"")
+ 2026-10-23 23:59:53 system,info Netwatch config added by console:admin+ct@ttyS0 (*4 = /tool netwatch add comment=CORE-2 down-script=":log warning \"NETWATCH CORE-2 down\"" host=10.0.0.6 interval=5s type=icmp up-script=":log info \"NETWATCH CORE-2 up\"")
+ 2026-10-23 23:59:54 script,info NETWATCH ISP-1 up
+ 2026-10-23 23:59:55 script,info NETWATCH ISP-2 up
+ 2026-10-23 23:59:56 script,info NETWATCH CORE-1 up
+ 2026-10-23 23:59:56 script,info NETWATCH CORE-2 up
+ 2026-10-24 00:40:47 script,warning NETWATCH CORE-1 down
+
+[admin@EDGE] > /log print where topics~"ospf"
+ 2026-10-23 23:55:11 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } created
+ 2026-10-23 23:55:12 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } created
+ 2026-10-23 23:55:12 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.5%ether4 } created
+ 2026-10-23 23:55:12 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.5%ether4 } state change to Point-to-Point
+ 2026-10-23 23:55:12 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } created
+ 2026-10-23 23:55:12 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } state change to Point-to-Point
+ 2026-10-23 23:55:13 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { broadcast 10.255.0.1%loopback } created
+ 2026-10-23 23:55:13 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { broadcast 10.255.0.1%loopback } state change to Passive
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Down } state change to Init
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Init } state change to ExStart
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: ExStart } negotiation done
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: ExStart } state change to Exchange
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } exchange lsdb size 1
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } exchange done
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Exchange } state change to Loading
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Loading } loading done
+ 2026-10-23 23:55:14 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%ether3 } neighbor { router-id: 10.255.0.2 state: Loading } state change to Full
+ 2026-10-23 23:55:18 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.5%ether4 } neighbor { router-id: 10.255.0.3 state: Down } state change to Init
+ 2026-10-23 23:55:18 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.5%ether4 } neighbor { router-id: 10.255.0.3 state: Init } state change to ExStart
+ 2026-10-23 23:55:18 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.5%ether4 } neighbor { router-id: 10.255.0.3 state: ExStart } negotiation done
+ 2026-10-23 23:55:18 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.5%ether4 } neighbor { router-id: 10.255.0.3 state: ExStart } state change to Exchange
+ 2026-10-23 23:55:18 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.5%ether4 } neighbor { router-id: 10.255.0.3 state: Exchange } exchange lsdb size 3
+ 2026-10-23 23:55:18 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.5%ether4 } neighbor { router-id: 10.255.0.3 state: Exchange } exchange done
+ 2026-10-23 23:55:18 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.5%ether4 } neighbor { router-id: 10.255.0.3 state: Exchange } state change to Full
+ 2026-10-24 00:40:46 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%*4 } neighbor { router-id: 10.255.0.2 state: Full } state change to Down
+ 2026-10-24 00:40:46 route,ospf,info ospf1 { version: 2 router-id: 10.255.0.1 } backbone { 0.0.0.0 } interface { p2p 10.0.0.1%*4 } destroyed

@@ -1,0 +1,22 @@
+# Drill 4 - estado previo - 2026-10-23 22:15:53
+
+[admin@EDGE] > /routing bgp connection disable ISP-1,ISP-2
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: A - ACTIVE; s - STATIC
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#    DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+;;; chk-ISP1
+0 As 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1  s 0.0.0.0/0    203.0.113.5  main                 31
+
+PC-USER> ping 198.51.100.100
+
+84 bytes from 198.51.100.100 icmp_seq=1 ttl=61 time=2.082 ms
+84 bytes from 198.51.100.100 icmp_seq=2 ttl=61 time=2.177 ms
+84 bytes from 198.51.100.100 icmp_seq=3 ttl=61 time=2.155 ms
+84 bytes from 198.51.100.100 icmp_seq=4 ttl=61 time=1.918 ms
+84 bytes from 198.51.100.100 icmp_seq=5 ttl=61 time=2.129 ms
+
+PC-USER>

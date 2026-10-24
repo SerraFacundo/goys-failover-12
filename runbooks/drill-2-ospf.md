@@ -5,7 +5,7 @@
 | Mecanismo | OSPF área 0, enlaces ptp, dos caminos EDGE → CORE |
 | Ejecuta | R5 (hosts) + R3 (CORE) |
 | Falla inyectada | Se cae el enlace EDGE `ether3` ↔ CORE-1 `ether1` |
-| Fecha / hora | ____ |
+| Fecha / hora | 2026-10-23 21:40 (hora local; los routers marcan 2026-10-24 00:40) |
 
 ## Estado previo
 
@@ -43,14 +43,14 @@ Capturas: `drill2_falla.png`, `drill2_recuperado.png`.
 
 | Medición | Valor |
 |----------|-------|
-| Pings perdidos | ____ |
-| Tiempo de corte | ____ s |
-| Tiempo hasta Full al volver | ____ s |
+| Pings perdidos | 1 |
+| Tiempo de corte | 1 s |
+| Tiempo hasta Full al volver | 10 s |
 
 Valor de referencia: con los timers por defecto (hello 10 s, dead 40 s) el corte puede llegar a 40 s.
 
 ## Post-mortem
 
-- ¿Por qué tardó lo que tardó? ____
-- ¿Se perdió todo el tráfico o solo una parte? Los DIST reparten entre CORE-1 y CORE-2; solo el tráfico que pasaba por CORE-1 → EDGE queda cortado hasta el dead interval. ____
+- ¿Por qué tardó lo que tardó? En GNS3 3.0.6 el Suspend baja el carrier en los dos extremos (EDGE ether3 y CORE-1 ether1: link down 00:40:46, hora router), así que OSPF bajó el vecino en el mismo segundo y no esperó el dead interval de 40 s. No se reprodujo el caso de enlace sin tráfico con link arriba. Al volver, el primer Resume no levantó el link; con Suspend + Resume de nuevo volvió (link up 00:50:00) y la adyacencia llegó a Full en 10 s.
+- ¿Se perdió todo el tráfico o solo una parte? Los DIST reparten entre CORE-1 y CORE-2; solo el tráfico que pasaba por CORE-1 → EDGE queda cortado hasta el dead interval. Observado: PC-USER perdió 1 ping y todas las rutas OSPF de EDGE pasaron a 10.0.0.6 en el mismo segundo del link down.
 - Mejora posible: bajar hello/dead (por ejemplo 1 s / 4 s) en los enlaces ptp, o usar BFD. Costo: más tráfico de control y más sensibilidad a pérdidas puntuales.

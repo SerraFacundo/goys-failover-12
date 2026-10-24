@@ -1,0 +1,42 @@
+# Seguridad OSPF MD5 - DIST-2 con clave incorrecta - 2026-10-23 22:22:05
+
+[admin@DIST-2] > /routing ospf interface-template print
+Flags: X - DISABLED, I - INACTIVE 
+ 0   area=backbone interfaces=ether1,ether2 instance-id=0 type=ptp 
+     retransmit-interval=5s transmit-delay=1s hello-interval=10s 
+     dead-interval=40s priority=128 cost=1 auth=md5 auth-id=1 
+ 1   area=backbone interfaces=loopback,ether3,ether4 instance-id=0 
+     type=broadcast retransmit-interval=5s transmit-delay=1s 
+     hello-interval=10s dead-interval=40s priority=128 cost=1 passive 
+
+[admin@DIST-2] > /routing ospf interface-template set 0 auth-key="CLAVEMAL"   (22:21:20 reloj local)
+Vecinos en DIST-2 = 0 a los 40 s (sondeo cada ~1 s)
+
+[admin@DIST-2] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+
+[admin@CORE-1] > /routing ospf neighbor print
+Flags: V - VIRTUAL; D - DYNAMIC 
+ 0  D instance=ospf1 area=backbone interface=ether2 address=10.0.0.10 
+      router-id=10.255.0.3 state="Full" state-changes=6 adjacency=1h26m51s 
+      timeout=33s 
+ 1  D instance=ospf1 area=backbone interface=ether3 address=10.0.0.14 
+      router-id=10.255.0.4 state="Full" state-changes=6 adjacency=1h26m31s 
+      timeout=36s 
+ 2  D instance=ospf1 area=backbone interface=ether1 address=10.0.0.1 
+      router-id=10.255.0.1 state="Full" state-changes=4 adjacency=31m55s 
+      timeout=35s 
+
+[admin@DIST-2] > /log print where topics~"ospf"   (desde el cambio de clave)
++6 s route,ospf,warning ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.18%ether1 } authentication failed from 10.0.0.17 md5 mismatch
++8 s route,ospf,warning ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.26%ether2 } authentication failed from 10.0.0.25 md5 mismatch
++16 s route,ospf,warning ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.18%ether1 } authentication failed from 10.0.0.17 md5 mismatch
++18 s route,ospf,warning ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.26%ether2 } authentication failed from 10.0.0.25 md5 mismatch
++26 s route,ospf,warning ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.18%ether1 } authentication failed from 10.0.0.17 md5 mismatch
++28 s route,ospf,warning ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.26%ether2 } authentication failed from 10.0.0.25 md5 mismatch
++36 s route,ospf,info ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.18%ether1 } neighbor { router-id: 10.255.0.2 state: Full } timeout
++36 s route,ospf,info ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.18%ether1 } neighbor { router-id: 10.255.0.2 state: Full } state change to Down
++36 s route,ospf,warning ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.18%ether1 } authentication failed from 10.0.0.17 md5 mismatch
++38 s route,ospf,info ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.26%ether2 } neighbor { router-id: 10.255.0.3 state: Full } timeout
++38 s route,ospf,info ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.26%ether2 } neighbor { router-id: 10.255.0.3 state: Full } state change to Down
++38 s route,ospf,warning ospf1 { version: 2 router-id: 10.255.0.5 } backbone { 0.0.0.0 } interface { p2p 10.0.0.26%ether2 } authentication failed from 10.0.0.25 md5 mismatch

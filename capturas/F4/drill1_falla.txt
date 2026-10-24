@@ -1,0 +1,39 @@
+# Drill 1 VRRP - falla (DIST-1 /interface disable ether3 a las 00:14:25 reloj router) - 2026-10-23 21:15:04
+
+PC-USER> ping 198.51.100.100 -t  (desde la inyeccion)
+21:14:25.720  84 bytes from 198.51.100.100 icmp_seq=6 ttl=61 time=2.060 ms
+21:14:27.728  198.51.100.100 icmp_seq=7 timeout
+21:14:29.724  198.51.100.100 icmp_seq=8 timeout
+21:14:30.731  84 bytes from 198.51.100.100 icmp_seq=9 ttl=61 time=2.017 ms
+21:14:31.726  84 bytes from 198.51.100.100 icmp_seq=10 ttl=61 time=1.923 ms
+21:14:32.728  84 bytes from 198.51.100.100 icmp_seq=11 ttl=61 time=2.099 ms
+21:14:33.735  84 bytes from 198.51.100.100 icmp_seq=12 ttl=61 time=2.277 ms
+21:14:34.743  84 bytes from 198.51.100.100 icmp_seq=13 ttl=61 time=1.834 ms
+21:14:35.736  84 bytes from 198.51.100.100 icmp_seq=14 ttl=61 time=1.955 ms
+21:14:36.738  84 bytes from 198.51.100.100 icmp_seq=15 ttl=61 time=2.036 ms
+21:14:37.746  84 bytes from 198.51.100.100 icmp_seq=16 ttl=61 time=2.089 ms
+21:14:38.742  84 bytes from 198.51.100.100 icmp_seq=17 ttl=61 time=1.961 ms
+21:14:39.745  84 bytes from 198.51.100.100 icmp_seq=18 ttl=61 time=1.979 ms
+21:14:40.749  84 bytes from 198.51.100.100 icmp_seq=19 ttl=61 time=1.930 ms
+21:14:41.757  84 bytes from 198.51.100.100 icmp_seq=20 ttl=61 time=2.005 ms
+
+Rachas sin respuesta: [(2, ['198.51.100.100 icmp_seq=7 timeout', '198.51.100.100 icmp_seq=8 timeout'])]
+
+[admin@DIST-2] > /interface vrrp print
+Flags: R - RUNNING; M - MASTER
+Columns: NAME, INTERFACE, MAC-ADDRESS, VRID, PRIORITY, INTERVAL, VERSION, 
+         V3-PROTOCOL, SYNC-CONNECTION-TRACKING
+#    NAME    INTERFACE  MAC-ADDRESS        VRID  PRIORITY  IN  V  V3-P  SY
+0 RM vrrp10  ether3     00:00:5E:00:01:0A    10       100  1s  2  ipv4  no
+1 RM vrrp20  ether4     00:00:5E:00:01:14    20       200  1s  2  ipv4  no
+
+[admin@DIST-2] > /log print where topics~"vrrp"
+ 2026-10-23 23:55:34 vrrp,info vrrp10 now BACKUP
+ 2026-10-23 23:55:35 vrrp,info vrrp20 now BACKUP
+ 2026-10-23 23:55:43 vrrp,info vrrp20 now MASTER, master down timer
+ 2026-10-24 00:14:29 vrrp,info vrrp10 now MASTER, master down timer
+
+[admin@DIST-2] > /log print where message~"NETWATCH"
+ 2026-10-24 00:00:04 system,info Netwatch config added by console:admin+ct@ttyS0 (*1 = /tool netwatch add comment=PAR-DIST down-script=":log warning \"NETWATCH PAR-DIST down\"" host=192.168.10.2 interval=5s type=icmp up-script=":log info \"NETWATCH PAR-DIST up\"")
+ 2026-10-24 00:00:07 script,info NETWATCH PAR-DIST up
+ 2026-10-24 00:14:30 script,warning NETWATCH PAR-DIST down

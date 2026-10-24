@@ -5,7 +5,7 @@
 | Mecanismo | eBGP multi-homing, local-pref 200 (ISP-1) / 100 (ISP-2) |
 | Ejecuta | R5 (hosts) + R2 en EDGE y R1 en ISP (rotación F4 R1↔R2) |
 | Falla inyectada | Se corta el enlace EDGE `ether1` ↔ ISP-1 |
-| Fecha / hora | ____ |
+| Fecha / hora | 2026-10-23 21:51 (hora local; los routers marcan 2026-10-24 00:51) |
 
 ## Estado previo
 
@@ -41,15 +41,15 @@ Capturas: `drill3_falla.png` (sesiones + default por ISP-2 + ping), `drill3_recu
 
 | Medición | Valor |
 |----------|-------|
-| Netwatch marca ISP-1 down a los | ____ s |
-| BGP da de baja la sesión a los | ____ s |
-| Tiempo de corte total del host | ____ s |
-| Tiempo hasta volver a ISP-1 | ____ s |
+| Netwatch marca ISP-1 down a los | 3 s |
+| BGP da de baja la sesión a los | 170 s |
+| Tiempo de corte total del host | 1 s |
+| Tiempo hasta volver a ISP-1 | 5 s |
 
 Valor de referencia: con el link arriba pero sin tráfico, BGP espera al hold-time (180 s por defecto en RouterOS 7).
 
 ## Post-mortem
 
-- ¿Por qué netwatch detectó antes que BGP? ____
-- ¿Qué pasa con el tráfico que entra desde Internet hacia las LANs durante el corte? ISP-1 sigue teniendo la ruta BGP hasta su propio hold-time. ____
-- Mejora posible: `hold-time=9s keepalive-time=3s` en las dos conexiones, o BFD. Probado: sí / no. Resultado: ____
+- ¿Por qué netwatch detectó antes que BGP? Netwatch hace ping cada 5 s y marcó down a los 3 s; BGP solo da de baja la sesión por hold-time (HoldTimer expired a los 170 s). Igual el host cortó 1 s: el Suspend baja el link, la ruta BGP vía 203.0.113.1 quedó inactiva al instante por next-hop inalcanzable (con la sesión todavía established) y la default pasó a 203.0.113.5. Al volver, la sesión ISP-1 quedó established a los 3 s del link up y la default volvió a 203.0.113.1 a los 5 s.
+- ¿Qué pasa con el tráfico que entra desde Internet hacia las LANs durante el corte? ISP-1 sigue teniendo la ruta BGP hasta su propio hold-time. No medido: no se generó tráfico desde Internet hacia las LANs. Observado: ISP-1 también registró ether1 link down a las 00:51:54 (hora router), el mismo segundo que EDGE.
+- Mejora posible: `hold-time=9s keepalive-time=3s` en las dos conexiones, o BFD. Probado: sí / no. Resultado: no medido: no se probó en esta corrida.

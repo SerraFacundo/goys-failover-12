@@ -1,4 +1,4 @@
-# 2026-10-24 00:00:58 by RouterOS 7.23.8
+# 2026-10-24 01:25:35 by RouterOS 7.23.8
 # system id = CWiz9mkZYhJ
 #
 /interface bridge add comment="loopback / router-id" name=loopback

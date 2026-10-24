@@ -1,4 +1,4 @@
-# 2026-10-24 00:01:30 by RouterOS 7.23.8
+# 2026-10-24 01:26:06 by RouterOS 7.23.8
 # system id = NG/OW7RL0aB
 #
 /interface bridge add comment="loopback / router-id" name=loopback

@@ -1,0 +1,41 @@
+# Seguridad BGP TCP-MD5 - ISP-2 con clave restaurada - 2026-10-23 22:23:40
+
+[admin@ISP-2] > /routing bgp connection set EDGE tcp-md5-key="<K-BGP-ISP2>"   (22:23:33 reloj local)
+Sesion ISP-2 established a los 1 s
+
+[admin@EDGE] > /routing bgp session print
+Flags: E - ESTABLISHED 
+ 0 E name="ISP-1-1" instance=bgp1 
+     remote.address=203.0.113.1 .as=65001 .id=10.255.0.11 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=6 .bytes=175 .eor="" 
+     local.address=203.0.113.2 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=5 .bytes=128 .eor="" 
+     output.procid=20 .filter-chain=to-isp 
+     input.procid=20 .filter=from-isp1 ebgp 
+     hold-time=3m keepalive-time=1m uptime=3m20s70ms 
+     last-started=2026-10-24 01:20:19 prefix-count=3 
+ 1 E name="ISP-2-1" instance=bgp1 
+     remote.address=203.0.113.5 .as=65002 .id=10.255.0.12 
+     .capabilities=mp,rr,enhe,gr,as4 .afi=ip .messages=3 .bytes=118 .eor="" 
+     local.address=203.0.113.6 .as=65000 .id=10.255.0.1 
+     .cluster-id=10.255.0.1 .capabilities=mp,rr,enhe,gr,as4 .afi=ip 
+     .messages=2 .bytes=71 .eor="" 
+     output.procid=21 .filter-chain=to-isp 
+     input.procid=21 .filter=from-isp2 ebgp 
+     hold-time=3m keepalive-time=1m uptime=5s510ms 
+     last-started=2026-10-24 01:23:34 last-stopped=2026-10-24 01:22:30 
+     prefix-count=1 
+
+[admin@EDGE] > /ip route print where dst-address=0.0.0.0/0
+Flags: D - DYNAMIC; A - ACTIVE; s - STATIC, b - BGP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+#     DST-ADDRESS  GATEWAY      ROUTING-TABLE  DISTANCE
+;;; chk-ISP1
+0   s 0.0.0.0/0    203.0.113.1  main                 30
+;;; chk-ISP2
+1   s 0.0.0.0/0    203.0.113.5  main                 31
+  DAb 0.0.0.0/0    203.0.113.1  main                 20
+  D b 0.0.0.0/0    203.0.113.5  main                 20
+
+Rachas sin respuesta en PC-USER durante toda la prueba: []

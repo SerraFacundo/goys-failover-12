@@ -1,4 +1,4 @@
-# 2026-10-24 00:01:09 by RouterOS 7.23.8
+# 2026-10-24 01:25:45 by RouterOS 7.23.8
 # system id = koCxSKn9a0I
 #
 /interface bridge add comment="loopback / router-id" name=loopback
@@ -55,8 +55,8 @@
 /ip service set winbox disabled=yes
 /ip service set api disabled=yes
 /ip service set api-ssl disabled=yes
-/routing bgp connection add as=65000 input.filter=from-isp1 instance=bgp1 local.address=203.0.113.2 .role=ebgp name=ISP-1 output.filter-chain=to-isp .redistribute=ospf remote.address=203.0.113.1 .as=65001
-/routing bgp connection add as=65000 input.filter=from-isp2 instance=bgp1 local.address=203.0.113.6 .role=ebgp name=ISP-2 output.filter-chain=to-isp .redistribute=ospf remote.address=203.0.113.5 .as=65002
+/routing bgp connection add as=65000 disabled=no input.filter=from-isp1 instance=bgp1 local.address=203.0.113.2 .role=ebgp name=ISP-1 output.filter-chain=to-isp .redistribute=ospf remote.address=203.0.113.1 .as=65001
+/routing bgp connection add as=65000 disabled=no input.filter=from-isp2 instance=bgp1 local.address=203.0.113.6 .role=ebgp name=ISP-2 output.filter-chain=to-isp .redistribute=ospf remote.address=203.0.113.5 .as=65002
 /routing filter rule add chain=from-isp1 rule="if (dst == 0.0.0.0/0) { set bgp-local-pref 200; accept }"
 /routing filter rule add chain=from-isp1 rule="if (dst in 198.51.100.0/24 && dst-len == 32) { set bgp-local-pref 200; accept }"
 /routing filter rule add chain=from-isp1 rule=reject
